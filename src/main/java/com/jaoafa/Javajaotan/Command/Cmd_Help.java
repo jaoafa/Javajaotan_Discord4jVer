@@ -150,6 +150,6 @@ public class Cmd_Help implements CommandPremise {
 
 	@Override
 	public String getUsage() {
-		return "/help [Command/Page]";
+		return "/help [Command|Page]";
 	}
 }
