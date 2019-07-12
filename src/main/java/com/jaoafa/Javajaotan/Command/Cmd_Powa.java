@@ -11,7 +11,6 @@ import sx.blah.discord.handle.obj.IUser;
 public class Cmd_Powa implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message, String[] args){
-		// powa command
 		channel.sendMessage("ポわ～～～～～～～ｗｗｗｗ！！！ｗ！ｗｗ！ｗ！ｗ");
 	}
 
