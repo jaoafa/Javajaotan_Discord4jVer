@@ -9,6 +9,9 @@ import java.io.InputStream;
 import java.util.Properties;
 
 import com.jaoafa.Javajaotan.Command.MainEvent;
+import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
+import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
+import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
@@ -55,6 +58,19 @@ public class Javajaotan {
 		IDiscordClient client = createClient(token, true);
 		EventDispatcher dispatcher = client.getDispatcher();
 		dispatcher.registerListener(new MainEvent());
+		dispatcher.registerListener(new Event_ServerJoin());
+		dispatcher.registerListener(new Event_ServerLeave());
+		dispatcher.registerListener(new Event_ServerBanned());
+
+		 Runtime.getRuntime().addShutdownHook(new Thread(
+            () -> {
+            	System.out.println("Exit");
+            }
+            ));
+
+		//JavajaotanWatcher JavajaotanWatcher = new JavajaotanWatcher();
+		//Timer timer = new Timer();
+        //timer.schedule(JavajaotanWatcher, 60000);
 	}
 	public static IDiscordClient createClient(String token, boolean login) { // Returns a new instance of the Discord client
 		ClientBuilder clientBuilder = new ClientBuilder(); // Creates the ClientBuilder instance
