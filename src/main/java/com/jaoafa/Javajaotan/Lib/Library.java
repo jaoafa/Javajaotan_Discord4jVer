@@ -14,6 +14,9 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import sx.blah.discord.handle.obj.IRole;
+import sx.blah.discord.handle.obj.IUser;
+
 public class Library {
 	/**
 	 * 他Discordサーバのウィジェットから、そのサーバに指定した利用者がいるかを判定します
@@ -94,5 +97,17 @@ public class Library {
 		int p,q;
 		for(p=0;(q=acp.indexOf(fs,p))>=0;p=q+1);
 		return acp.substring(0,p);
+	}
+	public static boolean isAllowRole(IUser author, IRole[] roles){
+		for(IRole role : roles){
+			if(author.hasRole(role)){
+				return true;
+			}
+		}
+		return false;
+	}
+	@Deprecated
+	public static String implode(String delimiter, String elements){
+		return String.join(delimiter, elements);
 	}
 }
