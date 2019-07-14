@@ -15,6 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
 
@@ -130,5 +131,19 @@ public class Library {
 		}catch(NumberFormatException e){
 			return false;
 		}
+	}
+	public static boolean hasAdminModeratorRole(IGuild guild, IUser author){
+		IRole AdminRole;
+		IRole ModeratorRole;
+		if(guild.getLongID() == 189377932429492224L){
+			AdminRole = guild.getRoleByID(189381504059572224L);
+			ModeratorRole = guild.getRoleByID(281699181410910230L);
+		}else if(guild.getLongID() == 597434133760835584L){
+			AdminRole = guild.getRoleByID(597405109290532864L);
+			ModeratorRole = guild.getRoleByID(597405110683041793L);
+		}else{
+			return false;
+		}
+		return author.hasRole(AdminRole) || author.hasRole(ModeratorRole);
 	}
 }

@@ -70,7 +70,7 @@ public class Cmd_Setnickatama implements CommandPremise {
 		String oldnick = author.getNicknameForGuild(guild);
 		if(oldnick == null) oldnick = "null";
 		guild.setUserNickname(author, builder.toString());
-		channel.sendMessage(oldnick + " -> " + builder.toString());
+		channel.sendMessage("`" + oldnick + "` -> `" + builder.toString() + "`");
 	}
 
     @Override

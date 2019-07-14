@@ -1,0 +1,72 @@
+package com.jaoafa.Javajaotan.Command;
+
+import java.util.Arrays;
+
+import com.jaoafa.Javajaotan.CommandPremise;
+import com.jaoafa.Javajaotan.Lib.Library;
+import com.jaoafa.Javajaotan.Lib.MuteManager;
+
+import sx.blah.discord.api.IDiscordClient;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IUser;
+
+public class Cmd_Mute implements CommandPremise {
+	@Override
+	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message, String[] args){
+		// Admin & Moderator ONLY Command
+		if(!Library.hasAdminModeratorRole(guild, author)){
+			channel.sendMessage("あなたはこのコマンドを使用できません。");
+			return;
+		}
+		long[] allowChannel = new long[]{
+				222002864875110400L, // admin
+				228771335499808769L, // meeting
+				293856671799967744L, // toma_lab
+
+				597423654451675137L, // new admin
+				597423467796758529L, // new meeting
+		};
+		if(!Arrays.asList(allowChannel).contains(channel.getLongID())){
+			channel.sendMessage("このチャンネルではこのコマンドを使用できません。");
+			return;
+		}
+		if(args.length == 1){
+			if(args[0].equalsIgnoreCase("add")){
+				// mute add
+				String userid = args[0];
+				if(MuteManager.isMuted(userid)){
+					// already
+					channel.sendMessage("既にミュートされています。");
+					return;
+				}
+				MuteManager.addMuteList(userid);
+				channel.sendMessage("ミュートリストに追加しました : <@" + userid + ">");
+				return;
+			}else if(args[0].equalsIgnoreCase("remove")){
+				// mute remove
+				String userid = args[0];
+				if(!MuteManager.isMuted(userid)){
+					// already
+					channel.sendMessage("既にミュートされています。");
+					return;
+				}
+				MuteManager.addMuteList(userid);
+				channel.sendMessage("ミュートリストに追加しました : <@" + userid + ">");
+				return;
+			}
+		}
+		channel.sendMessage(getUsage());
+		return;
+	}
+	@Override
+	public String getDescription() {
+		return "ミュート機能の制御ができます。運営のみ利用可能で、特定のチャンネルでのみ使用できます。";
+	}
+
+	@Override
+	public String getUsage() {
+		return "/mute <add|remove> <UserID>";
+	}
+}

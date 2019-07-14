@@ -35,7 +35,7 @@ public class Cmd_Bassline implements CommandPremise {
 
     @Override
     public String getDescription() {
-        return "ベースラインパーティーの途中の臨時ニュースを発言されたチャンネルに投稿します。\nhttps://www.youtube.com/watch?v=55AalrbALAk";
+        return "ベースラインパーティーの途中の臨時ニュースを発言されたチャンネルに投稿します。\nhttps://youtu.be/55AalrbALAk";
     }
 
     @Override
