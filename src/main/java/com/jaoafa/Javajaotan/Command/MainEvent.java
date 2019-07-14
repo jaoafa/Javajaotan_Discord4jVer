@@ -9,6 +9,7 @@ import com.jaoafa.Javajaotan.CommandPremise;
 import com.jaoafa.Javajaotan.Javajaotan;
 import com.jaoafa.Javajaotan.Lib.ErrorReporter;
 import com.jaoafa.Javajaotan.Lib.Library;
+import com.jaoafa.Javajaotan.Lib.MuteManager;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -41,6 +42,10 @@ public class MainEvent {
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
 		String text = event.getMessage().getContent();
+
+		if(MuteManager.isMuted(author.getStringID())){
+			return;
+		}
 
 		if(!text.startsWith("/")){
 			return;

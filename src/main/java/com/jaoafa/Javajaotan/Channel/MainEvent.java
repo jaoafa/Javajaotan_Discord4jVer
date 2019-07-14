@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import com.jaoafa.Javajaotan.ChannelPremise;
 import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Lib.MuteManager;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -22,6 +23,10 @@ public class MainEvent {
 		IChannel channel = event.getChannel();
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
+
+		if(MuteManager.isMuted(author.getStringID())){
+			return;
+		}
 
 		try {
             String className = channel.getStringID();
