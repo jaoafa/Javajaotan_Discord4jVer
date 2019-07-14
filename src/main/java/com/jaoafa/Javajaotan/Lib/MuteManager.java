@@ -75,7 +75,14 @@ public class MuteManager {
 	}
 	public static void addMuteList(String userid){
 		if(mutes == null) refreshMuteList();
+		if(mutes.contains(userid)) return;
 		mutes.add(userid);
+		saveMuteList();
+	}
+	public static void removeMuteList(String userid){
+		if(mutes == null) refreshMuteList();
+		if(!mutes.contains(userid)) return;
+		mutes.remove(userid);
 		saveMuteList();
 	}
 }

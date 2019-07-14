@@ -132,6 +132,14 @@ public class Library {
 			return false;
 		}
 	}
+	public static boolean isLong(String s){
+		try{
+			Long.valueOf(s);
+			return true;
+		}catch(NumberFormatException e){
+			return false;
+		}
+	}
 	public static boolean hasAdminModeratorRole(IGuild guild, IUser author){
 		IRole AdminRole;
 		IRole ModeratorRole;
