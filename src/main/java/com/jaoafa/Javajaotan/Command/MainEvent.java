@@ -35,7 +35,6 @@ public class MainEvent {
 	}
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent event) {
-
 		IDiscordClient client = event.getClient();
 		IGuild guild = event.getGuild();
 		IChannel channel = event.getChannel();
