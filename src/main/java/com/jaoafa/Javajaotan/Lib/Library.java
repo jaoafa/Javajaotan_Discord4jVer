@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -107,7 +108,27 @@ public class Library {
 		return false;
 	}
 	@Deprecated
-	public static String implode(String delimiter, String elements){
+	public static String implode(CharSequence delimiter, CharSequence... elements){
 		return String.join(delimiter, elements);
+	}
+	/**
+	 * ホスト名を返す
+	 * @return ホスト名。取得できなければnullを返却
+	 */
+	public static String getHostName() {
+	    try {
+	        return InetAddress.getLocalHost().getHostName();
+	    }catch (Exception e) {
+	        e.printStackTrace();
+		    return null;
+	    }
+	}
+	public static boolean isInt(String s){
+		try{
+			Integer.valueOf(s);
+			return true;
+		}catch(NumberFormatException e){
+			return false;
+		}
 	}
 }

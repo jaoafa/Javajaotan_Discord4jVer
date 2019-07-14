@@ -26,7 +26,23 @@ public class SQLiteDBManager {
 		// err
 		throw new IOException("You do not have access permission for the specified DB file.");
 	}
-	Connection getConnection() throws SQLException{
+	public SQLiteDBManager(File file) throws ClassNotFoundException, IOException{
+		Class.forName("org.sqlite.JDBC");
+		if(file.exists() && file.canRead() && file.canWrite()){
+			jdbcUrl = "jdbc:sqlite:" + file.getAbsolutePath();
+			return;
+		}else{
+			String parent = file.getParent();
+			if(new File(parent).exists() && new File(parent).canWrite()){
+				// ok
+				jdbcUrl = "jdbc:sqlite:" + file.getAbsolutePath();
+				return;
+			}
+		}
+		// err
+		throw new IOException("You do not have access permission for the specified DB file.");
+	}
+	public Connection getConnection() throws SQLException{
 		if(conn != null && !conn.isClosed()){
 			return conn;
 		}

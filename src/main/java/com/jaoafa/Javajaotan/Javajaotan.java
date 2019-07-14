@@ -6,20 +6,25 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 
 import com.jaoafa.Javajaotan.Command.MainEvent;
 import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
 import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
+import com.jaoafa.Javajaotan.Lib.ErrorReporter;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
+import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
 
 public class Javajaotan {
-
+	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	public static IChannel ReportChannel = null;
+	private static IDiscordClient client = null;
 	public static void main(String[] args) {
 		File f = new File("conf.properties");
 		Properties props;
@@ -82,9 +87,14 @@ public class Javajaotan {
 				return clientBuilder.build(); // Creates the client instance but it doesn't log the client in yet, you would have to call client.login() yourself
 			}
 		} catch (DiscordException e) { // This is thrown if there was a problem building the client
-			e.printStackTrace();
+			ErrorReporter.report(e);
 			return null;
 		}
 	}
-
+	public static void setClient(IDiscordClient client){
+		Javajaotan.client = client;
+	}
+	public static IDiscordClient getClient(){
+		return client;
+	}
 }

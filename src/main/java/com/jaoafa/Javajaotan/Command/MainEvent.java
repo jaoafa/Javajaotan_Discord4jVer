@@ -3,8 +3,12 @@ package com.jaoafa.Javajaotan.Command;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Date;
 
 import com.jaoafa.Javajaotan.CommandPremise;
+import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Lib.Library;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -19,6 +23,15 @@ public class MainEvent {
 	@EventSubscriber
 	public void onReadyEvent(ReadyEvent event) {
 		System.out.println("Ready: " + event.getClient().getOurUser().getName());
+
+		Javajaotan.setClient(event.getClient());
+
+		Javajaotan.ReportChannel = event.getClient().getChannelByID(597766057117351937L);
+
+		event.getClient().getChannelByID(597766057117351937L).sendMessage("**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName() + "]** " + "Start Javajaotan");
+		Runtime.getRuntime().addShutdownHook(new Thread(
+            () -> event.getClient().getChannelByID(597766057117351937L).sendMessage("**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName() + "]** " + "End Javajaotan")
+        ));
 	}
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent event) {
@@ -67,7 +80,7 @@ public class MainEvent {
         	// not found
         } catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e) {
         	// error
-        	e.printStackTrace();
+        	ErrorReporter.report(e);
 		}
 		/*
 		if(args[0].equalsIgnoreCase("/test")){

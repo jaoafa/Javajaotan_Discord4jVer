@@ -20,7 +20,7 @@ public class MySQLDBManager {
 		this.user = username;
 		this.password = password;
 	}
-	Connection getConnection() throws SQLException{
+	public Connection getConnection() throws SQLException{
 		if(conn != null && !conn.isClosed()){
 			return conn;
 		}
