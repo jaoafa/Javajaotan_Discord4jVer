@@ -20,15 +20,15 @@ public class Cmd_Mute implements CommandPremise {
 			channel.sendMessage("あなたはこのコマンドを使用できません。");
 			return;
 		}
-		long[] allowChannel = new long[]{
-				222002864875110400L, // admin
-				228771335499808769L, // meeting
-				293856671799967744L, // toma_lab
+		String[] allowChannel = new String[]{
+				"222002864875110400", // admin
+				"228771335499808769", // meeting
+				"293856671799967744", // toma_lab
 
-				597423654451675137L, // new admin
-				597423467796758529L, // new meeting
+				"597423654451675137", // new admin
+				"597423467796758529", // new meeting
 		};
-		if(!Arrays.asList(allowChannel).contains(channel.getLongID())){
+		if(!Arrays.asList(allowChannel).contains(channel.getStringID())){
 			channel.sendMessage("このチャンネルではこのコマンドを使用できません。");
 			return;
 		}
