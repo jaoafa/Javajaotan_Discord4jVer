@@ -41,6 +41,10 @@ public class Cmd_Mute implements CommandPremise {
 					channel.sendMessage("指定されたユーザーは既にミュートされています。");
 					return;
 				}
+				if(!Library.isLong(userid)){
+					channel.sendMessage("数値を指定してください。");
+					return;
+				}
 				MuteManager.addMuteList(userid);
 				channel.sendMessage("ミュートリストに追加しました : <@" + userid + ">");
 				return;
@@ -54,6 +58,7 @@ public class Cmd_Mute implements CommandPremise {
 				}
 				if(!Library.isLong(userid)){
 					channel.sendMessage("数値を指定してください。");
+					return;
 				}
 				MuteManager.removeMuteList(userid);
 				channel.sendMessage("ミュートリストから解除しました : <@" + userid + ">");
