@@ -32,10 +32,10 @@ public class Cmd_Mute implements CommandPremise {
 			channel.sendMessage("このチャンネルではこのコマンドを使用できません。");
 			return;
 		}
-		if(args.length == 1){
+		if(args.length == 2){
 			if(args[0].equalsIgnoreCase("add")){
 				// mute add
-				String userid = args[0];
+				String userid = args[1];
 				if(MuteManager.isMuted(userid)){
 					// already
 					channel.sendMessage("既にミュートされています。");
@@ -46,7 +46,7 @@ public class Cmd_Mute implements CommandPremise {
 				return;
 			}else if(args[0].equalsIgnoreCase("remove")){
 				// mute remove
-				String userid = args[0];
+				String userid = args[1];
 				if(!MuteManager.isMuted(userid)){
 					// already
 					channel.sendMessage("既にミュートされています。");
