@@ -73,9 +73,11 @@ public class Javajaotan {
             }
             ));
 
-		//JavajaotanWatcher JavajaotanWatcher = new JavajaotanWatcher();
-		//Timer timer = new Timer();
-        //timer.schedule(JavajaotanWatcher, 60000);
+		 /*
+		JavajaotanWatcher JavajaotanWatcher = new JavajaotanWatcher();
+		Timer timer = new Timer();
+        timer.schedule(JavajaotanWatcher, 60000);
+        */
 	}
 	public static IDiscordClient createClient(String token, boolean login) { // Returns a new instance of the Discord client
 		ClientBuilder clientBuilder = new ClientBuilder(); // Creates the ClientBuilder instance
