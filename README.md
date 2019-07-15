@@ -18,11 +18,11 @@
 |o|/powa||
 ||/gsearch||
 ||/origin||
-||/potato||
+|o|/potato||
 ||/imo||
 |o|/tmttmt||
 ||/inmu||
-||/recid||
+|o|/recid||
 ||/toen||
 ||/toenja||
 ||/dice||
