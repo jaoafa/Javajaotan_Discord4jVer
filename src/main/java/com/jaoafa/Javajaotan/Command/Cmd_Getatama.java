@@ -81,13 +81,12 @@ public class Cmd_Getatama implements CommandPremise {
 				int row = res_suffix.getRow() - 1;
 				list.set(row, list.get(row) + res_suffix.getString("word"));
 			}
-			conn.close();
 		} catch (SQLException e) {
 			channel.sendMessage("処理に失敗しました。時間を置いてもう一度お試しください。\nReason: " + e.getMessage());
 			ErrorReporter.report(e);
 			return;
 		}
-		channel.sendMessage(String.join("\n", list));
+		channel.sendMessage("```" + String.join("\n", list) + "```");
 	}
 
     @Override
