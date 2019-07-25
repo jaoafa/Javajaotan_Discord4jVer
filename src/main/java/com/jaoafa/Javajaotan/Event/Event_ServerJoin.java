@@ -12,12 +12,8 @@ public class Event_ServerJoin {
 			return; // jMS Gamers Clubのみ
 		}
 		IUser user = event.getUser();
-		IChannel channel = event.getGuild().getChannelByID(597419057251090443L);
+		IChannel channel = event.getGuild().getChannelByID(603841992404893707L);
 		channel.sendMessage(":man_dancing:<@" + user.getStringID() + ">(#" + user.getDiscriminator() + ")さん、jao Minecraft Server Discordにようこそ。\n"
-			+ "<#597418966335356928>を見ると少しハッピーになれるかも？\n※**ご質問がありますか？お問い合わせ等は<#597423370589700098>まで。**\n"
-			+ "\n"
-			+ "``/link``コマンドをDiscord内で使用することで、MinecraftアカウントとDiscordアカウントを連携することができます。他の皆さんにあなたのMinecraftアカウントを同時に告知できますから、ぜひ連携してみましょう！");
-
-
+			+ "運営方針により、参加から10分以内に発言がない場合システムによって自動的にキックされます。<#603841992404893707>チャンネルで「jao」「afa」とあいさつしてみましょう。");
 	}
 }
