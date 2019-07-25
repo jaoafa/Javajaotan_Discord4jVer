@@ -46,6 +46,9 @@ public class MessageMainEvent {
 		if(MuteManager.isMuted(author.getStringID())){
 			return;
 		}
+		if(channel.getLongID() == 603841992404893707L) {
+			return;
+		}
 
 		if(!text.startsWith("/")){
 			return;
