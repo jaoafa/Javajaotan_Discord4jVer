@@ -80,7 +80,7 @@ public class Javajaotan {
 
 		 Task_VerifiedCheck Task_VerifiedCheck = new Task_VerifiedCheck();
 		 Timer timer = new Timer();
-		 timer.schedule(Task_VerifiedCheck, 0, 60000); // 1分
+		 timer.scheduleAtFixedRate(Task_VerifiedCheck, 10000, 60000); // 1分
 
 		 /*
 		JavajaotanWatcher JavajaotanWatcher = new JavajaotanWatcher();
