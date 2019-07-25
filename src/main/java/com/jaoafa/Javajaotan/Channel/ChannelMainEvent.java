@@ -24,8 +24,8 @@ public class ChannelMainEvent {
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
 
-		if(MuteManager.isMuted(author.getStringID())){
-			return;
+		if(channel.getLongID() != 603841992404893707L && MuteManager.isMuted(author.getStringID())){
+			return; // #greetingではない + Muted
 		}
 
 		try {
