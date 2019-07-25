@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
+import java.util.Timer;
 
-import com.jaoafa.Javajaotan.Command.MainEvent;
+import com.jaoafa.Javajaotan.Channel.ChannelMainEvent;
+import com.jaoafa.Javajaotan.Command.MessageMainEvent;
 import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
 import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
 import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Task.Task_VerifiedCheck;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
@@ -62,16 +65,22 @@ public class Javajaotan {
 
 		IDiscordClient client = createClient(token, true);
 		EventDispatcher dispatcher = client.getDispatcher();
-		dispatcher.registerListener(new MainEvent());
+		dispatcher.registerListener(new MessageMainEvent());
+		dispatcher.registerListener(new ChannelMainEvent());
 		dispatcher.registerListener(new Event_ServerJoin());
 		dispatcher.registerListener(new Event_ServerLeave());
 		dispatcher.registerListener(new Event_ServerBanned());
 
-		 Runtime.getRuntime().addShutdownHook(new Thread(
-            () -> {
-            	System.out.println("Exit");
-            }
-            ));
+		 Runtime.getRuntime().addShutdownHook(
+			 new Thread(
+				 () -> {
+					 System.out.println("Exit");
+				 }
+		 ));
+
+		 Task_VerifiedCheck Task_VerifiedCheck = new Task_VerifiedCheck();
+		 Timer timer = new Timer();
+		 timer.schedule(Task_VerifiedCheck, 60000); // 1分
 
 		 /*
 		JavajaotanWatcher JavajaotanWatcher = new JavajaotanWatcher();

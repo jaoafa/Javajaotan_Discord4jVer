@@ -20,7 +20,7 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 
-public class MainEvent {
+public class MessageMainEvent {
 	@EventSubscriber
 	public void onReadyEvent(ReadyEvent event) {
 		System.out.println("Ready: " + event.getClient().getOurUser().getName());

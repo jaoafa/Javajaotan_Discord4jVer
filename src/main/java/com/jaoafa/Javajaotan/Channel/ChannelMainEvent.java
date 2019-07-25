@@ -15,7 +15,7 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 
-public class MainEvent {
+public class ChannelMainEvent {
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent event) {
 		IDiscordClient client = event.getClient();
@@ -29,20 +29,20 @@ public class MainEvent {
 		}
 
 		try {
-            String className = channel.getStringID();
-            //channel.sendMessage("com.jaoafa.Javajaotan.Command.Cmd_" + className);
+			String className = channel.getStringID();
+			//channel.sendMessage("com.jaoafa.Javajaotan.Command.Cmd_" + className);
 
-            Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className);
-            // クラスがない場合これ以降進まない
-            Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
-            ChannelPremise cmd = (ChannelPremise) construct.newInstance();
+			Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className);
+			// クラスがない場合これ以降進まない
+			Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
+			ChannelPremise cmd = (ChannelPremise) construct.newInstance();
 
-            cmd.run(client, guild, channel, author, message);
-        } catch (ClassNotFoundException e) {
-        	// not found
-        } catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e) {
-        	// error
-        	ErrorReporter.report(e);
+			cmd.run(client, guild, channel, author, message);
+		} catch (ClassNotFoundException e) {
+			// not found
+		} catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e) {
+			// error
+			ErrorReporter.report(e);
 		}
 	}
 }
