@@ -16,6 +16,7 @@ import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
 import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
 import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Lib.MySQLDBManager;
 import com.jaoafa.Javajaotan.Task.Task_VerifiedCheck;
 
 import sx.blah.discord.api.ClientBuilder;
@@ -28,6 +29,7 @@ public class Javajaotan {
 	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	public static IChannel ReportChannel = null;
 	private static IDiscordClient client = null;
+	public static MySQLDBManager MySQLDBManager = null;
 	public static void main(String[] args) {
 		File f = new File("conf.properties");
 		Properties props;
@@ -41,6 +43,9 @@ public class Javajaotan {
 			// ファイル生成
 			props = new Properties();
 			props.setProperty("token", "PLEASETOKEN");
+			props.setProperty("sqlserver", "PLEASE");
+			props.setProperty("sqluser", "PLEASE");
+			props.setProperty("sqlpassword", "PLEASE");
 			try {
 				props.store(new FileOutputStream("conf.properties"), "Comments");
 				System.out.println("Please Config Token!");
@@ -61,6 +66,26 @@ public class Javajaotan {
 		if(token.equalsIgnoreCase("PLEASETOKEN")){
 			System.out.println("Please Token!");
 			return;
+		}
+		String sqlserver = props.getProperty("sqlserver");
+		if(sqlserver.equalsIgnoreCase("PLEASE")){
+			System.out.println("Please Token!");
+			return;
+		}
+		String sqluser = props.getProperty("sqluser");
+		if(sqluser.equalsIgnoreCase("PLEASE")){
+			System.out.println("Please Token!");
+			return;
+		}
+		String sqlpassword = props.getProperty("sqlpassword");
+		if(sqlpassword.equalsIgnoreCase("PLEASE")){
+			System.out.println("Please Token!");
+			return;
+		}
+		try {
+			MySQLDBManager = new MySQLDBManager(sqlserver, "3306", "jaoafa", sqluser, sqlpassword);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 
 		IDiscordClient client = createClient(token, true);

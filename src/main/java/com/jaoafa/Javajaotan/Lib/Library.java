@@ -140,6 +140,12 @@ public class Library {
 			return false;
 		}
 	}
+	/**
+	 * AdminもしくはModeratorのユーザであるかを判定します。
+	 * @param guild 対象のGuild
+	 * @param author 判定するユーザ
+	 * @return Admin, Moderatorであればtrue
+	 */
 	public static boolean hasAdminModeratorRole(IGuild guild, IUser author){
 		IRole AdminRole;
 		IRole ModeratorRole;
@@ -153,5 +159,8 @@ public class Library {
 			return false;
 		}
 		return author.hasRole(AdminRole) || author.hasRole(ModeratorRole);
+	}
+	public static boolean isNewjMSDiscordServer(IGuild guild) {
+		return guild.getLongID() == 597378876556967936L;
 	}
 }
