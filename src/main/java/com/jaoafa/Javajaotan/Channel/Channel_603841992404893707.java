@@ -16,7 +16,8 @@ import sx.blah.discord.util.RequestBuffer;
 public class Channel_603841992404893707 implements ChannelPremise {
 	// #greeting 603841992404893707
 	@Override
-	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message) {
+	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
+			boolean edited) {
 		if (message.isSystemMessage()) {
 			return;
 		}

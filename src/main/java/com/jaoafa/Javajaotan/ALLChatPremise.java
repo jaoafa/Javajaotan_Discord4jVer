@@ -14,6 +14,14 @@ public interface ALLChatPremise {
 	 * @param channel 送信元のチャンネル
 	 * @param author 送信者(実行者)
 	 * @param message メッセージに関するデータ
+	 * @param edited 編集による呼び出しかどうか
 	 */
-	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message);
+	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
+			boolean edited);
+
+	/**
+	 * 編集された場合でも呼び出すかを指定・確認します。
+	 * @return 編集された場合でも呼び出すか
+	 */
+	public boolean isAlsoTargetEdited();
 }

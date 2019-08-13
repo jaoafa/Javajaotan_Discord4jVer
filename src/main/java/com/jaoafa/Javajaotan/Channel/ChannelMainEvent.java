@@ -39,7 +39,7 @@ public class ChannelMainEvent {
 					.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
 			ChannelPremise cmd = (ChannelPremise) construct.newInstance();
 
-			cmd.run(client, guild, channel, author, message);
+			cmd.run(client, guild, channel, author, message, false);
 		} catch (ClassNotFoundException e) {
 			// not found
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -69,13 +69,13 @@ public class ChannelMainEvent {
 			// クラスがない場合これ以降進まない
 			Constructor<?> construct = (Constructor<?>) Class
 					.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
-			ChannelPremise cmd = (ChannelPremise) construct.newInstance();
+			ChannelPremise chan = (ChannelPremise) construct.newInstance();
 
-			if (!cmd.isAlsoTargetEdited()) {
+			if (!chan.isAlsoTargetEdited()) {
 				return;
 			}
 
-			cmd.run(client, guild, channel, author, message);
+			chan.run(client, guild, channel, author, message, true);
 		} catch (ClassNotFoundException e) {
 			// not found
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException

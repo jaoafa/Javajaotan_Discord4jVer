@@ -13,7 +13,8 @@ import sx.blah.discord.util.RequestBuffer;
 
 public class ALL_Calledjaotan implements ALLChatPremise {
 	@Override
-	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message) {
+	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
+			boolean edited) {
 		String text = message.getContent();
 		if ((channel.getName().contains("server") && channel.getName().contains("chat"))
 				|| channel.getName().contains("console")) {
@@ -59,5 +60,10 @@ public class ALL_Calledjaotan implements ALLChatPremise {
 				}
 			});
 		}
+	}
+
+	@Override
+	public boolean isAlsoTargetEdited() {
+		return false;
 	}
 }

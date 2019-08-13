@@ -14,11 +14,16 @@ import sx.blah.discord.util.RequestBuffer;
 
 public class ALL_MessagePin implements ALLChatPremise {
 	@Override
-	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message) {
+	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
+			boolean edited) {
 		String text = message.getContent();
 
 		if (text.startsWith("📌")) {
 			try {
+				if (edited && message.isPinned()) {
+					message.addReaction(ReactionEmoji.of("📌"));
+					return;
+				}
 				channel.pin(message);
 			} catch (DiscordException e) {
 				message.addReaction(ReactionEmoji.of("❌")); // :x:
@@ -32,5 +37,10 @@ public class ALL_MessagePin implements ALLChatPremise {
 			}
 			message.addReaction(ReactionEmoji.of("📌")); // :pushpin:
 		}
+	}
+
+	@Override
+	public boolean isAlsoTargetEdited() {
+		return true;
 	}
 }

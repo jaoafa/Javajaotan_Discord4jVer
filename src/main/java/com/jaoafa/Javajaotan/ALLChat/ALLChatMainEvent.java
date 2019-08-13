@@ -9,6 +9,7 @@ import com.jaoafa.Javajaotan.Lib.MuteManager;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageEditEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
@@ -34,7 +35,38 @@ public class ALLChatMainEvent {
 				}
 				Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
 				ALLChatPremise allchat = (ALLChatPremise) construct.newInstance();
-				allchat.run(client, guild, channel, author, message);
+				allchat.run(client, guild, channel, author, message, false);
+			}
+		} catch (Exception e) {
+			ErrorReporter.report(e);
+			return;
+		}
+	}
+
+	@EventSubscriber
+	public void onMessageEditEvent(MessageEditEvent event) {
+		IDiscordClient client = event.getClient();
+		IGuild guild = event.getGuild();
+		IChannel channel = event.getChannel();
+		IUser author = event.getAuthor();
+		IMessage message = event.getMessage();
+		if (channel.getLongID() == 603841992404893707L || MuteManager.isMuted(author.getStringID())) {
+			return; // #greeting or Muted
+		}
+		try {
+			ClassFinder classFinder = new ClassFinder();
+			for (Class<?> clazz : classFinder.findClasses("com.jaoafa.Javajaotan.ALLChat")) {
+				if (!clazz.getName().startsWith("com.jaoafa.Javajaotan.ALLChat.ALL_")) {
+					continue;
+				}
+				Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
+				ALLChatPremise allchat = (ALLChatPremise) construct.newInstance();
+
+				if (!allchat.isAlsoTargetEdited()) {
+					return;
+				}
+
+				allchat.run(client, guild, channel, author, message, true);
 			}
 		} catch (Exception e) {
 			ErrorReporter.report(e);
