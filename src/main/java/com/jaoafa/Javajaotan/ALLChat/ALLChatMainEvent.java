@@ -24,8 +24,11 @@ public class ALLChatMainEvent {
 		IChannel channel = event.getChannel();
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
-		if (channel.getLongID() == 603841992404893707L || MuteManager.isMuted(author.getStringID())) {
-			return; // #greeting or Muted
+		if (channel.getLongID() == 603841992404893707L) {
+			return; // #greeting
+		}
+		if (MuteManager.isMuted(author.getStringID())) {
+			return; // Muted
 		}
 		try {
 			ClassFinder classFinder = new ClassFinder();
@@ -50,12 +53,17 @@ public class ALLChatMainEvent {
 		IChannel channel = event.getChannel();
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
-		if (channel.getLongID() == 603841992404893707L || MuteManager.isMuted(author.getStringID())) {
-			return; // #greeting or Muted
+		if (channel.getLongID() == 603841992404893707L) {
+			return; // #greeting
 		}
+		if (MuteManager.isMuted(author.getStringID())) {
+			return; // Muted
+		}
+		System.out.println("EDIT: " + author.getName() + " -> " + message.getContent());
 		try {
 			ClassFinder classFinder = new ClassFinder();
 			for (Class<?> clazz : classFinder.findClasses("com.jaoafa.Javajaotan.ALLChat")) {
+				System.out.println("EDIT A: " + clazz.getName());
 				if (!clazz.getName().startsWith("com.jaoafa.Javajaotan.ALLChat.ALL_")) {
 					continue;
 				}
@@ -63,7 +71,7 @@ public class ALLChatMainEvent {
 				ALLChatPremise allchat = (ALLChatPremise) construct.newInstance();
 
 				if (!allchat.isAlsoTargetEdited()) {
-					return;
+					continue;
 				}
 
 				allchat.run(client, guild, channel, author, message, true);

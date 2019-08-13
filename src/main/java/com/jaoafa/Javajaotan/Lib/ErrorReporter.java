@@ -16,14 +16,13 @@ import sx.blah.discord.util.RequestBuffer;
 
 public class ErrorReporter {
 	public static void report(Throwable exception) {
+		exception.printStackTrace();
 		if (Javajaotan.ReportChannel == null) {
 			System.out.println("Javajaotan.ReportChannel == null error.");
-			exception.printStackTrace();
 			return;
 		}
 		if (Javajaotan.getClient() == null) {
 			System.out.println("Javajaotan.getClient() == null error.");
-			exception.printStackTrace();
 			return;
 		}
 
