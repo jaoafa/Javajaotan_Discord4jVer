@@ -28,7 +28,7 @@ public class Event_MessageReceived {
 			try {
 				channel.pin(message);
 			} catch (DiscordException e) {
-				message.addReaction(ReactionEmoji.of("\u274C")); // :x:
+				message.addReaction(ReactionEmoji.of("❌")); // :x:
 				RequestBuffer.request(() -> {
 					try {
 						message.reply("メッセージをピン止めするのに失敗しました…。```" + e.getErrorMessage() + "```");
@@ -37,7 +37,7 @@ public class Event_MessageReceived {
 					}
 				});
 			}
-			message.addReaction(ReactionEmoji.of("\u1F4CC")); // :pushpin:
+			message.addReaction(ReactionEmoji.of("📌")); // :pushpin:
 		}
 	}
 }
