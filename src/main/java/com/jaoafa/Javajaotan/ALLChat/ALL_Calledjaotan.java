@@ -1,40 +1,20 @@
-package com.jaoafa.Javajaotan.Event;
+package com.jaoafa.Javajaotan.ALLChat;
 
+import com.jaoafa.Javajaotan.ALLChatPremise;
 import com.jaoafa.Javajaotan.Javajaotan;
 
-import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
-public class Event_MessageReceived {
-	/*
-		IDiscordClient client = event.getClient();
-		IGuild guild = event.getGuild();
-		IChannel channel = event.getChannel();
-		IUser author = event.getAuthor();
-		IMessage message = event.getMessage();
-		String text = event.getMessage().getContent();
-	 */
-	@EventSubscriber
-	public void onMessageReceivedEvent(MessageReceivedEvent event) {
-		//
-		FirstEmojiPin(event);
-
-		// jaotan
-
-	}
-
-	void FirstEmojiPin(MessageReceivedEvent event) {
-
-	}
-
-	void calledjaotan(MessageReceivedEvent event) {
-		IChannel channel = event.getChannel();
-		IMessage message = event.getMessage();
-		String text = event.getMessage().getContent();
+public class ALL_Calledjaotan implements ALLChatPremise {
+	@Override
+	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message) {
+		String text = message.getContent();
 		if ((channel.getName().contains("server") && channel.getName().contains("chat"))
 				|| channel.getName().contains("console")) {
 			// チャンネル名に「server」と「chat」が含まれるチャンネル
