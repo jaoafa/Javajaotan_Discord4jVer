@@ -9,8 +9,8 @@ import com.jaoafa.Javajaotan.Lib.MuteManager;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
-import sx.blah.discord.handle.impl.events.guild.channel.message.MessageEditEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageUpdateEvent;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
@@ -50,7 +50,7 @@ public class ChannelMainEvent {
 	}
 
 	@EventSubscriber
-	public void onMessageEditEvent(MessageEditEvent event) {
+	public void onMessageUpdateEvent(MessageUpdateEvent event) {
 		IDiscordClient client = event.getClient();
 		IGuild guild = event.getGuild();
 		IChannel channel = event.getChannel();
