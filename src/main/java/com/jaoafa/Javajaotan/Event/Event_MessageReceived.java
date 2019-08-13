@@ -39,5 +39,44 @@ public class Event_MessageReceived {
 			}
 			message.addReaction(ReactionEmoji.of("📌")); // :pushpin:
 		}
+
+		// jaotan
+		if (text.equals("jaotan")) {
+			RequestBuffer.request(() -> {
+				try {
+					message.reply("はいっ！お呼びですか？");
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
+		}
+		if (text.equals("Jaotan")) {
+			RequestBuffer.request(() -> {
+				try {
+					message.reply("はいっ！お呼びで…はい？\njaotanは``jaotan``であって``Jaotan``じゃないです！人の名前を間違えるなんてひどい！人間のCrime！");
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
+		}
+		if (!text.equals("jaotan") && !text.equals("Jaotan") && text.equalsIgnoreCase("jaotan")) {
+			// 「jaotan」でもなく「Jaotan」でもないjaotan。つまりjAotanとかjaoTanとか。
+			RequestBuffer.request(() -> {
+				try {
+					message.reply("はいっ！お呼びで…。ああ、論外です。御帰り願います。");
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
+		}
+		if (!text.equalsIgnoreCase("jaotan") && text.contains("jaotan")) {
+			RequestBuffer.request(() -> {
+				try {
+					message.reply("はいっ！あっ、呼んだわけではないんですね…");
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
+		}
 	}
 }
