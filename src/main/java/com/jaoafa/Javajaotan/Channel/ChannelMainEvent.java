@@ -25,8 +25,8 @@ public class ChannelMainEvent {
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
 
-		if(channel.getLongID() != 603841992404893707L && MuteManager.isMuted(author.getStringID())){
-			return; // #greetingではない + Muted
+		if (channel.getLongID() != 603841992404893707L || MuteManager.isMuted(author.getStringID())) {
+			return; // #greetingではない or Muted
 		}
 
 		try {
@@ -35,17 +35,20 @@ public class ChannelMainEvent {
 
 			Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className);
 			// クラスがない場合これ以降進まない
-			Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
+			Constructor<?> construct = (Constructor<?>) Class
+					.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
 			ChannelPremise cmd = (ChannelPremise) construct.newInstance();
 
 			cmd.run(client, guild, channel, author, message);
 		} catch (ClassNotFoundException e) {
 			// not found
-		} catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
 			// error
 			ErrorReporter.report(e);
 		}
 	}
+
 	@EventSubscriber
 	public void onMessageEditEvent(MessageEditEvent event) {
 		IDiscordClient client = event.getClient();
@@ -54,8 +57,8 @@ public class ChannelMainEvent {
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
 
-		if(channel.getLongID() != 603841992404893707L && MuteManager.isMuted(author.getStringID())){
-			return; // #greetingではない + Muted
+		if (channel.getLongID() != 603841992404893707L || MuteManager.isMuted(author.getStringID())) {
+			return; // #greetingではない or Muted
 		}
 
 		try {
@@ -64,17 +67,19 @@ public class ChannelMainEvent {
 
 			Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className);
 			// クラスがない場合これ以降進まない
-			Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
+			Constructor<?> construct = (Constructor<?>) Class
+					.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
 			ChannelPremise cmd = (ChannelPremise) construct.newInstance();
 
-			if(!cmd.isAlsoTargetEdited()) {
+			if (!cmd.isAlsoTargetEdited()) {
 				return;
 			}
 
 			cmd.run(client, guild, channel, author, message);
 		} catch (ClassNotFoundException e) {
 			// not found
-		} catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
 			// error
 			ErrorReporter.report(e);
 		}

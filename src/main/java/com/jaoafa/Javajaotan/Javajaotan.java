@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.Timer;
 
+import com.jaoafa.Javajaotan.ALLChat.ALLChatMainEvent;
 import com.jaoafa.Javajaotan.Channel.ChannelMainEvent;
 import com.jaoafa.Javajaotan.Command.MessageMainEvent;
 import com.jaoafa.Javajaotan.Event.Event_MessageReceived;
@@ -99,6 +100,7 @@ public class Javajaotan {
 		EventDispatcher dispatcher = client.getDispatcher();
 		dispatcher.registerListener(new MessageMainEvent());
 		dispatcher.registerListener(new ChannelMainEvent());
+		dispatcher.registerListener(new ALLChatMainEvent());
 		dispatcher.registerListener(new Event_ServerJoin());
 		dispatcher.registerListener(new Event_ServerLeave());
 		dispatcher.registerListener(new Event_ServerBanned());

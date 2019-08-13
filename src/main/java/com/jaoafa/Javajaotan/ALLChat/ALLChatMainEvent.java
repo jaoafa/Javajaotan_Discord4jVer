@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import com.jaoafa.Javajaotan.ALLChatPremise;
 import com.jaoafa.Javajaotan.Lib.ClassFinder;
 import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Lib.MuteManager;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventSubscriber;
@@ -22,6 +23,9 @@ public class ALLChatMainEvent {
 		IChannel channel = event.getChannel();
 		IUser author = event.getAuthor();
 		IMessage message = event.getMessage();
+		if (channel.getLongID() != 603841992404893707L || MuteManager.isMuted(author.getStringID())) {
+			return; // #greetingではない or Muted
+		}
 		try {
 			ClassFinder classFinder = new ClassFinder();
 			for (Class<?> clazz : classFinder.findClasses("com.jaoafa.Javajaotan.ALLChat")) {
