@@ -10,16 +10,18 @@ import java.util.Date;
 
 import com.jaoafa.Javajaotan.Javajaotan;
 
+import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.EmbedBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 public class ErrorReporter {
-	public static void report(Throwable exception){
-		if(Javajaotan.ReportChannel == null){
+	public static void report(Throwable exception) {
+		if (Javajaotan.ReportChannel == null) {
 			System.out.println("Javajaotan.ReportChannel == null error.");
 			exception.printStackTrace();
 			return;
 		}
-		if(Javajaotan.getClient() == null){
+		if (Javajaotan.getClient() == null) {
 			System.out.println("Javajaotan.getClient() == null error.");
 			exception.printStackTrace();
 			return;
@@ -37,9 +39,15 @@ public class ErrorReporter {
 			builder.appendField("Message", "```" + exception.getMessage() + "```", false);
 			builder.appendField("Cause", "```" + exception.getCause() + "```", false);
 			builder.withTimestamp(System.currentTimeMillis());
-			Javajaotan.ReportChannel.sendMessage(builder.build());
-		}catch(Exception e){
-			try{
+			RequestBuffer.request(() -> {
+				try {
+					Javajaotan.ReportChannel.sendMessage(builder.build());
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(ErrorReporter.class, Javajaotan.ReportChannel, discordexception);
+				}
+			});
+		} catch (Exception e) {
+			try {
 				String text = "javajaotan Error Reporter (" + Javajaotan.sdf.format(new Date()) + ")\n"
 						+ "---------- StackTrace ----------\n"
 						+ sw.toString() + "\n"
@@ -48,10 +56,17 @@ public class ErrorReporter {
 						+ "---------- Cause ----------\n"
 						+ exception.getCause();
 				InputStream stream = new ByteArrayInputStream(
-					text.getBytes("utf-8")
-				);
-				Javajaotan.ReportChannel.sendFile("javajaotan Error Reporter", stream, "Javajaotanreport" + System.currentTimeMillis() + ".txt");
-			}catch(UnsupportedEncodingException ex){
+						text.getBytes("utf-8"));
+				RequestBuffer.request(() -> {
+					try {
+						Javajaotan.ReportChannel.sendFile("javajaotan Error Reporter", stream,
+								"Javajaotanreport" + System.currentTimeMillis() + ".txt");
+					} catch (DiscordException discordexception) {
+						Javajaotan.DiscordExceptionError(ErrorReporter.class, Javajaotan.ReportChannel,
+								discordexception);
+					}
+				});
+			} catch (UnsupportedEncodingException ex) {
 				return;
 			}
 		}

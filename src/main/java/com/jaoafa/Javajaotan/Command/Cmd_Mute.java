@@ -3,6 +3,7 @@ package com.jaoafa.Javajaotan.Command;
 import java.util.Arrays;
 
 import com.jaoafa.Javajaotan.CommandPremise;
+import com.jaoafa.Javajaotan.Javajaotan;
 import com.jaoafa.Javajaotan.Lib.Library;
 import com.jaoafa.Javajaotan.Lib.MuteManager;
 
@@ -11,16 +12,25 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.RequestBuffer;
 
 public class Cmd_Mute implements CommandPremise {
 	@Override
-	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message, String[] args){
+	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
+			String[] args) {
 		// Admin & Moderator ONLY Command
-		if(!Library.hasAdminModeratorRole(guild, author)){
-			channel.sendMessage("あなたはこのコマンドを使用できません。");
+		if (!Library.hasAdminModeratorRole(guild, author)) {
+			RequestBuffer.request(() -> {
+				try {
+					message.reply("あなたはこのコマンドを使用できません。");
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
 			return;
 		}
-		String[] allowChannel = new String[]{
+		String[] allowChannel = new String[] {
 				"222002864875110400", // admin
 				"228771335499808769", // meeting
 				"293856671799967744", // toma_lab
@@ -28,46 +38,95 @@ public class Cmd_Mute implements CommandPremise {
 				"597423654451675137", // new admin
 				"597423467796758529", // new meeting
 		};
-		if(!Arrays.asList(allowChannel).contains(channel.getStringID())){
-			channel.sendMessage("このチャンネルではこのコマンドを使用できません。");
+		if (!Arrays.asList(allowChannel).contains(channel.getStringID())) {
+			RequestBuffer.request(() -> {
+				try {
+					message.reply("このチャンネルではこのコマンドを使用できません。");
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
 			return;
 		}
-		if(args.length == 2){
-			if(args[0].equalsIgnoreCase("add")){
+		if (args.length == 2) {
+			if (args[0].equalsIgnoreCase("add")) {
 				// mute add
 				String userid = args[1];
-				if(MuteManager.isMuted(userid)){
+				if (MuteManager.isMuted(userid)) {
 					// already
-					channel.sendMessage("指定されたユーザーは既にミュートされています。");
+					RequestBuffer.request(() -> {
+						try {
+							message.reply("指定されたユーザーは既にミュートされています。");
+						} catch (DiscordException discordexception) {
+							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						}
+					});
 					return;
 				}
-				if(!Library.isLong(userid)){
-					channel.sendMessage("数値を指定してください。");
+				if (!Library.isLong(userid)) {
+					RequestBuffer.request(() -> {
+						try {
+							message.reply("数値を指定してください。");
+						} catch (DiscordException discordexception) {
+							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						}
+					});
 					return;
 				}
 				MuteManager.addMuteList(userid);
-				channel.sendMessage("ミュートリストに追加しました : <@" + userid + ">");
+				RequestBuffer.request(() -> {
+					try {
+						message.reply("ミュートリストに追加しました : <@" + userid + ">");
+					} catch (DiscordException discordexception) {
+						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					}
+				});
 				return;
-			}else if(args[0].equalsIgnoreCase("remove")){
+			} else if (args[0].equalsIgnoreCase("remove")) {
 				// mute remove
 				String userid = args[1];
-				if(!MuteManager.isMuted(userid)){
+				if (!MuteManager.isMuted(userid)) {
 					// already
-					channel.sendMessage("指定されたユーザーはミュートされていません。");
+					RequestBuffer.request(() -> {
+						try {
+							message.reply("指定されたユーザーはミュートされていません。");
+						} catch (DiscordException discordexception) {
+							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						}
+					});
 					return;
 				}
-				if(!Library.isLong(userid)){
-					channel.sendMessage("数値を指定してください。");
+				if (!Library.isLong(userid)) {
+					RequestBuffer.request(() -> {
+						try {
+							message.reply("数値を指定してください。");
+						} catch (DiscordException discordexception) {
+							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						}
+					});
 					return;
 				}
 				MuteManager.removeMuteList(userid);
-				channel.sendMessage("ミュートリストから解除しました : <@" + userid + ">");
+				RequestBuffer.request(() -> {
+					try {
+						message.reply("ミュートリストから解除しました : <@" + userid + ">");
+					} catch (DiscordException discordexception) {
+						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					}
+				});
 				return;
 			}
 		}
-		channel.sendMessage(getUsage());
+		RequestBuffer.request(() -> {
+			try {
+				message.reply(getUsage());
+			} catch (DiscordException discordexception) {
+				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+			}
+		});
 		return;
 	}
+
 	@Override
 	public String getDescription() {
 		return "ミュート機能の制御ができます。運営のみ利用可能で、特定のチャンネルでのみ使用できます。";

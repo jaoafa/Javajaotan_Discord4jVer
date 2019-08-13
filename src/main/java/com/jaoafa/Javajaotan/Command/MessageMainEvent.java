@@ -19,6 +19,8 @@ import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
+import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.RequestBuffer;
 
 public class MessageMainEvent {
 	@EventSubscriber
@@ -29,11 +31,33 @@ public class MessageMainEvent {
 
 		Javajaotan.ReportChannel = event.getClient().getChannelByID(597766057117351937L);
 
-		event.getClient().getChannelByID(597766057117351937L).sendMessage("**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName() + "]** " + "Start Javajaotan");
+		RequestBuffer.request(() -> {
+			try {
+				event.getClient().getChannelByID(597766057117351937L)
+						.sendMessage("**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName() + "]** "
+								+ "Start Javajaotan");
+			} catch (DiscordException discordexception) {
+				Javajaotan.DiscordExceptionError(getClass(), event.getClient().getChannelByID(597766057117351937L),
+						discordexception);
+			}
+		});
 		Runtime.getRuntime().addShutdownHook(new Thread(
-            () -> event.getClient().getChannelByID(597766057117351937L).sendMessage("**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName() + "]** " + "End Javajaotan")
-        ));
+				() -> {
+					RequestBuffer.request(() -> {
+						try {
+							event.getClient().getChannelByID(597766057117351937L)
+									.sendMessage(
+											"**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName()
+													+ "]** "
+													+ "End Javajaotan");
+						} catch (DiscordException discordexception) {
+							Javajaotan.DiscordExceptionError(getClass(),
+									event.getClient().getChannelByID(597766057117351937L), discordexception);
+						}
+					});
+				}));
 	}
+
 	@EventSubscriber
 	public void onMessageReceivedEvent(MessageReceivedEvent event) {
 		IDiscordClient client = event.getClient();
@@ -43,14 +67,14 @@ public class MessageMainEvent {
 		IMessage message = event.getMessage();
 		String text = event.getMessage().getContent();
 
-		if(MuteManager.isMuted(author.getStringID())){
+		if (MuteManager.isMuted(author.getStringID())) {
 			return;
 		}
-		if(channel.getLongID() == 603841992404893707L) {
+		if (channel.getLongID() == 603841992404893707L) {
 			return;
 		}
 
-		if(!text.startsWith("/")){
+		if (!text.startsWith("/")) {
 			return;
 		}
 		System.out.println("Msg: " + event.getAuthor().getName() + " " + event.getMessage().getContent());
@@ -61,33 +85,35 @@ public class MessageMainEvent {
 			cmdname = text.split("\n")[0].substring(1).trim();
 			args = Arrays.copyOfRange(text.split("\n"), 1, text.split("\n").length);
 			args = Arrays.stream(args)
-                    .filter(s -> (s != null && s.length() > 0))
-                    .toArray(String[]::new);
-		}else */if(text.contains(" ")){
+		            .filter(s -> (s != null && s.length() > 0))
+		            .toArray(String[]::new);
+		}else */if (text.contains(" ")) {
 			cmdname = text.split(" ")[0].substring(1).trim();
 			args = Arrays.copyOfRange(text.split(" "), 1, text.split(" ").length);
 			args = Arrays.stream(args)
-                    .filter(s -> (s != null && s.length() > 0))
-                    .toArray(String[]::new);
-		}else{
-			args = new String[]{};
+					.filter(s -> (s != null && s.length() > 0))
+					.toArray(String[]::new);
+		} else {
+			args = new String[] {};
 			cmdname = text.substring(1).trim();
 		}
 		try {
-            String className = cmdname.substring(0, 1).toUpperCase() + cmdname.substring(1).toLowerCase(); // Help
-            //channel.sendMessage("com.jaoafa.Javajaotan.Command.Cmd_" + className);
+			String className = cmdname.substring(0, 1).toUpperCase() + cmdname.substring(1).toLowerCase(); // Help
+			//channel.sendMessage("com.jaoafa.Javajaotan.Command.Cmd_" + className);
 
-            Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className);
-            // クラスがない場合これ以降進まない
-            Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className).getConstructor();
-            CommandPremise cmd = (CommandPremise) construct.newInstance();
+			Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className);
+			// クラスがない場合これ以降進まない
+			Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className)
+					.getConstructor();
+			CommandPremise cmd = (CommandPremise) construct.newInstance();
 
-            cmd.onCommand(client, guild, channel, author, message, args);
-        } catch (ClassNotFoundException e) {
-        	// not found
-        } catch (InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e) {
-        	// error
-        	ErrorReporter.report(e);
+			cmd.onCommand(client, guild, channel, author, message, args);
+		} catch (ClassNotFoundException e) {
+			// not found
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// error
+			ErrorReporter.report(e);
 		}
 		/*
 		if(args[0].equalsIgnoreCase("/test")){

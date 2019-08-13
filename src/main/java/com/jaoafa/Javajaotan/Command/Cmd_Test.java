@@ -11,17 +11,18 @@ import sx.blah.discord.handle.obj.IUser;
 
 public class Cmd_Test implements CommandPremise {
 	@Override
-	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message, String[] args){
+	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
+			String[] args) {
 		ErrorReporter.report(new NullPointerException("NullPointerException"));
 	}
 
-    @Override
-    public String getDescription() {
-        return "試験用コマンド";
-    }
+	@Override
+	public String getDescription() {
+		return "試験用コマンド";
+	}
 
-    @Override
-    public String getUsage() {
-        return "/test";
-    }
+	@Override
+	public String getUsage() {
+		return "/test";
+	}
 }

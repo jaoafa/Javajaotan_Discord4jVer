@@ -1,17 +1,22 @@
 package com.jaoafa.Javajaotan;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.Timer;
 
 import com.jaoafa.Javajaotan.Channel.ChannelMainEvent;
 import com.jaoafa.Javajaotan.Command.MessageMainEvent;
+import com.jaoafa.Javajaotan.Event.Event_MessageReceived;
 import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
 import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
@@ -24,22 +29,24 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.RequestBuffer;
 
 public class Javajaotan {
 	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	public static IChannel ReportChannel = null;
 	private static IDiscordClient client = null;
 	public static MySQLDBManager MySQLDBManager = null;
+
 	public static void main(String[] args) {
 		File f = new File("conf.properties");
 		Properties props;
-		try{
+		try {
 			InputStream is = new FileInputStream(f);
 
 			// プロパティファイルを読み込む
 			props = new Properties();
 			props.load(is);
-		}catch(FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			// ファイル生成
 			props = new Properties();
 			props.setProperty("token", "PLEASETOKEN");
@@ -63,22 +70,22 @@ public class Javajaotan {
 		}
 		// キーを指定して値を取得する
 		String token = props.getProperty("token");
-		if(token.equalsIgnoreCase("PLEASETOKEN")){
+		if (token.equalsIgnoreCase("PLEASETOKEN")) {
 			System.out.println("Please Token!");
 			return;
 		}
 		String sqlserver = props.getProperty("sqlserver");
-		if(sqlserver.equalsIgnoreCase("PLEASE")){
+		if (sqlserver.equalsIgnoreCase("PLEASE")) {
 			System.out.println("Please Token!");
 			return;
 		}
 		String sqluser = props.getProperty("sqluser");
-		if(sqluser.equalsIgnoreCase("PLEASE")){
+		if (sqluser.equalsIgnoreCase("PLEASE")) {
 			System.out.println("Please Token!");
 			return;
 		}
 		String sqlpassword = props.getProperty("sqlpassword");
-		if(sqlpassword.equalsIgnoreCase("PLEASE")){
+		if (sqlpassword.equalsIgnoreCase("PLEASE")) {
 			System.out.println("Please Token!");
 			return;
 		}
@@ -95,24 +102,25 @@ public class Javajaotan {
 		dispatcher.registerListener(new Event_ServerJoin());
 		dispatcher.registerListener(new Event_ServerLeave());
 		dispatcher.registerListener(new Event_ServerBanned());
+		dispatcher.registerListener(new Event_MessageReceived());
 
-		 Runtime.getRuntime().addShutdownHook(
-			 new Thread(
-				 () -> {
-					 System.out.println("Exit");
-				 }
-		 ));
+		Runtime.getRuntime().addShutdownHook(
+				new Thread(
+						() -> {
+							System.out.println("Exit");
+						}));
 
-		 Task_VerifiedCheck Task_VerifiedCheck = new Task_VerifiedCheck();
-		 Timer timer = new Timer();
-		 timer.scheduleAtFixedRate(Task_VerifiedCheck, 10000, 60000); // 1分
+		Task_VerifiedCheck Task_VerifiedCheck = new Task_VerifiedCheck();
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(Task_VerifiedCheck, 10000, 60000); // 1分
 
-		 /*
+		/*
 		JavajaotanWatcher JavajaotanWatcher = new JavajaotanWatcher();
 		Timer timer = new Timer();
-        timer.schedule(JavajaotanWatcher, 60000);
-        */
+		timer.schedule(JavajaotanWatcher, 60000);
+		*/
 	}
+
 	public static IDiscordClient createClient(String token, boolean login) { // Returns a new instance of the Discord client
 		ClientBuilder clientBuilder = new ClientBuilder(); // Creates the ClientBuilder instance
 		clientBuilder.withToken(token); // Adds the login info to the builder
@@ -127,10 +135,44 @@ public class Javajaotan {
 			return null;
 		}
 	}
-	public static void setClient(IDiscordClient client){
+
+	public static void setClient(IDiscordClient client) {
 		Javajaotan.client = client;
 	}
-	public static IDiscordClient getClient(){
+
+	public static IDiscordClient getClient() {
 		return client;
+	}
+
+	public static void DiscordExceptionError(Class<?> clazz, IChannel channel, DiscordException exception) {
+		if (channel == null && Javajaotan.ReportChannel != null) {
+			channel = Javajaotan.ReportChannel;
+		} else if (channel == null) {
+			System.out.println("DiscordExceptionError: channel == null and Javajaotan.ReportChannel == null.");
+			System.out.println("DiscordExceptionError did not work properly!");
+			return;
+		}
+		final IChannel FINALCHANNEL = channel;
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		exception.printStackTrace(pw);
+		pw.flush();
+		try {
+			InputStream is = new ByteArrayInputStream(sw.toString().getBytes("utf-8"));
+			RequestBuffer.request(() -> {
+				FINALCHANNEL.sendFile(
+						":pencil:おっと！Javajaotanでなにか問題が発生したようです！ <@221991565567066112>\n**ErrorMsg**: `"
+								+ exception.getErrorMessage()
+								+ "`\n**Class**: `" + clazz.getName() + "`",
+						is,
+						"stacktrace.txt");
+			});
+		} catch (UnsupportedEncodingException ex) {
+			RequestBuffer.request(() -> {
+				FINALCHANNEL.sendMessage(":pencil:<@221991565567066112> おっと！メッセージ送信時に問題が発生したみたいです！\n**ErrorMsg**: `"
+						+ exception.getErrorMessage() + "`\n**Class**: `" + clazz.getName()
+						+ "`\nUnsupportedEncodingException: `" + ex.getMessage() + "`");
+			});
+		}
 	}
 }
