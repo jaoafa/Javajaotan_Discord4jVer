@@ -51,6 +51,7 @@ public class ALL_Calledjaotan implements ALLChatPremise {
 				}
 			});
 		}
+		/*
 		if (!text.equalsIgnoreCase("jaotan") && text.contains("jaotan")) {
 			RequestBuffer.request(() -> {
 				try {
@@ -60,6 +61,7 @@ public class ALL_Calledjaotan implements ALLChatPremise {
 				}
 			});
 		}
+		*/
 	}
 
 	@Override

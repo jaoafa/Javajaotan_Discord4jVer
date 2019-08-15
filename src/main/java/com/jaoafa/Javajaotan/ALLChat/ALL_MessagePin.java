@@ -21,21 +21,33 @@ public class ALL_MessagePin implements ALLChatPremise {
 		if (text.startsWith("📌")) {
 			try {
 				if (edited && message.isPinned()) {
-					message.addReaction(ReactionEmoji.of("📌"));
+					RequestBuffer.request(() -> {
+						try {
+							message.addReaction(ReactionEmoji.of("📌"));
+						} catch (DiscordException discordexception) {
+							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						}
+					});
 					return;
 				}
 				channel.pin(message);
 			} catch (DiscordException e) {
-				message.addReaction(ReactionEmoji.of("❌")); // :x:
 				RequestBuffer.request(() -> {
 					try {
+						message.addReaction(ReactionEmoji.of("❌")); // :x:
 						message.reply("メッセージをピン止めするのに失敗しました…。```" + e.getErrorMessage() + "```");
 					} catch (DiscordException discordexception) {
 						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 			}
-			message.addReaction(ReactionEmoji.of("📌")); // :pushpin:
+			RequestBuffer.request(() -> {
+				try {
+					message.addReaction(ReactionEmoji.of("📌")); // :pushpin:
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
 		}
 	}
 
