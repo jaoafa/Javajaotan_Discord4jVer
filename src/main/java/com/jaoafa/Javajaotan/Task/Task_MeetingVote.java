@@ -54,7 +54,7 @@ public class Task_MeetingVote extends TimerTask {
 					if (!Library.isInt(m.group(0))) {
 						continue;
 					}
-					_VoteBorder = Integer.valueOf(m.group(0));
+					_VoteBorder = Integer.valueOf(m.group(1));
 				}
 			}
 			int _white = white_count;
