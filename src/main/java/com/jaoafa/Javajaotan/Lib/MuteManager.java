@@ -67,7 +67,7 @@ public class MuteManager {
 			return;
 		}
 		try {
-			PreparedStatement statement_delete = conn.prepareStatement("delete from user;");
+			PreparedStatement statement_delete = conn.prepareStatement("delete from users;");
 			statement_delete.executeUpdate();
 			for (String userid : mutes) {
 				PreparedStatement statement_insert = conn.prepareStatement("insert into users values(?);");
