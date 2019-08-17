@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -134,10 +135,10 @@ public class Task_MeetingVote extends TimerTask {
 								+ timestamp.toEpochSecond(ZoneOffset.ofHours(9)) + ")",
 						false);
 				builder.appendField("有効会議期限",
-						sdf.format(cal) + " (" + cal.getTimeInMillis() + ")",
+						sdf.format(cal.getTime()) + " (" + cal.getTimeInMillis() + ")",
 						false);
 				builder.appendField("現在時刻",
-						sdf.format(now) + " (" + now + ")",
+						sdf.format(new Date(now)) + " (" + now + ")",
 						false);
 				RequestBuffer.request(() -> {
 					try {
