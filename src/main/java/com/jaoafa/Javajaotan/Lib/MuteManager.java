@@ -67,10 +67,12 @@ public class MuteManager {
 			return;
 		}
 		try {
+			PreparedStatement statement_delete = conn.prepareStatement("delete from user;");
+			statement_delete.executeUpdate();
 			for (String userid : mutes) {
-				PreparedStatement statement = conn.prepareStatement("insert into users values(?);");
-				statement.setString(1, userid);
-				statement.executeUpdate();
+				PreparedStatement statement_insert = conn.prepareStatement("insert into users values(?);");
+				statement_insert.setString(1, userid);
+				statement_insert.executeUpdate();
 			}
 			conn.close();
 		} catch (SQLException e) {
