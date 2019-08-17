@@ -23,6 +23,7 @@ import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
 import com.jaoafa.Javajaotan.Lib.ErrorReporter;
 import com.jaoafa.Javajaotan.Lib.MySQLDBManager;
+import com.jaoafa.Javajaotan.Task.Task_MeetingVote;
 import com.jaoafa.Javajaotan.Task.Task_VerifiedCheck;
 
 import sx.blah.discord.api.ClientBuilder;
@@ -112,9 +113,9 @@ public class Javajaotan {
 							System.out.println("Exit");
 						}));
 
-		Task_VerifiedCheck Task_VerifiedCheck = new Task_VerifiedCheck();
 		Timer timer = new Timer();
-		timer.scheduleAtFixedRate(Task_VerifiedCheck, 10000, 60000); // 1分
+		timer.scheduleAtFixedRate(new Task_VerifiedCheck(), 10000, 60000); // 1分
+		timer.scheduleAtFixedRate(new Task_MeetingVote(), 10000, 600000); // 10分
 
 		/*
 		JavajaotanWatcher JavajaotanWatcher = new JavajaotanWatcher();

@@ -6,19 +6,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 public class MuteManager {
-	private static List<String> mutes = null;
-	public static void refreshMuteList(){
-		if(mutes != null) mutes.clear();
-		mutes = new ArrayList<>();
+	private static HashSet<String> mutes = null;
+
+	public static HashSet<String> refreshMuteList() {
+		if (mutes != null)
+			mutes.clear();
+		mutes = new HashSet<>();
 
 		File sqliteFile = new File("mutes.db");
-		if(!sqliteFile.exists()){
+		if (!sqliteFile.exists()) {
 			// nasa
-			return;
+			return null;
 		}
 		Connection conn;
 		try {
@@ -26,25 +27,33 @@ public class MuteManager {
 			conn = sqlite.getConnection();
 		} catch (ClassNotFoundException | IOException e) {
 			ErrorReporter.report(e);
-			return;
+			return null;
 		} catch (SQLException e) {
 			ErrorReporter.report(e);
-			return;
+			return null;
 		}
 		try {
 			PreparedStatement statement = conn.prepareStatement("SELECT * FROM users;");
 			ResultSet res = statement.executeQuery();
-			while(res.next()){
+			while (res.next()) {
+				try {
+					Long.valueOf(res.getString("userid"));
+				} catch (NumberFormatException e) {
+					continue;
+				}
 				mutes.add(res.getString("userid"));
 			}
 			conn.close();
 		} catch (SQLException e) {
 			ErrorReporter.report(e);
-			return;
+			return null;
 		}
+		return mutes;
 	}
-	public static void saveMuteList(){
-		if(mutes == null) return;
+
+	public static void saveMuteList() {
+		if (mutes == null)
+			return;
 		File sqliteFile = new File("mutes.db");
 		Connection conn;
 		try {
@@ -58,7 +67,7 @@ public class MuteManager {
 			return;
 		}
 		try {
-			for(String userid : mutes){
+			for (String userid : mutes) {
 				PreparedStatement statement = conn.prepareStatement("insert into users values(?);");
 				statement.setString(1, userid);
 				statement.executeUpdate();
@@ -69,19 +78,27 @@ public class MuteManager {
 			return;
 		}
 	}
-	public static boolean isMuted(String userid){
-		if(mutes == null) refreshMuteList();
+
+	public static boolean isMuted(String userid) {
+		if (mutes == null)
+			refreshMuteList();
 		return mutes.contains(userid);
 	}
-	public static void addMuteList(String userid){
-		if(mutes == null) refreshMuteList();
-		if(mutes.contains(userid)) return;
+
+	public static void addMuteList(String userid) {
+		if (mutes == null)
+			refreshMuteList();
+		if (mutes.contains(userid))
+			return;
 		mutes.add(userid);
 		saveMuteList();
 	}
-	public static void removeMuteList(String userid){
-		if(mutes == null) refreshMuteList();
-		if(!mutes.contains(userid)) return;
+
+	public static void removeMuteList(String userid) {
+		if (mutes == null)
+			refreshMuteList();
+		if (!mutes.contains(userid))
+			return;
 		mutes.remove(userid);
 		saveMuteList();
 	}

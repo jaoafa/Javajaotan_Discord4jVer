@@ -1,6 +1,7 @@
 package com.jaoafa.Javajaotan.Command;
 
 import java.util.Arrays;
+import java.util.HashSet;
 
 import com.jaoafa.Javajaotan.CommandPremise;
 import com.jaoafa.Javajaotan.Javajaotan;
@@ -116,15 +117,36 @@ public class Cmd_Mute implements CommandPremise {
 				});
 				return;
 			}
-		}
-		RequestBuffer.request(() -> {
-			try {
-				message.reply(getUsage());
-			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+		} else if (args.length == 1) {
+			if (args[0].equalsIgnoreCase("list")) {
+				HashSet<String> list = MuteManager.refreshMuteList();
+				HashSet<String> replyList = new HashSet<>();
+				for (String userid : list) {
+					IUser user = client.fetchUser(Long.parseLong(userid));
+					if (user != null) {
+						replyList.add(user.getName() + "#" + user.getDiscriminator());
+					} else {
+						replyList.add(userid);
+					}
+				}
+				RequestBuffer.request(() -> {
+					try {
+						message.reply("ミュートリスト```" + String.join(", ", replyList) + "```");
+					} catch (DiscordException discordexception) {
+						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					}
+				});
+				return;
 			}
-		});
-		return;
+			RequestBuffer.request(() -> {
+				try {
+					message.reply(getUsage());
+				} catch (DiscordException discordexception) {
+					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
+			return;
+		}
 	}
 
 	@Override
@@ -134,6 +156,6 @@ public class Cmd_Mute implements CommandPremise {
 
 	@Override
 	public String getUsage() {
-		return "/mute <add|remove> <UserID>";
+		return "/mute <add|remove|list> [UserID]";
 	}
 }
