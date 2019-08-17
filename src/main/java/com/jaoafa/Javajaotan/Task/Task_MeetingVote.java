@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,10 +74,11 @@ public class Task_MeetingVote extends TimerTask {
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("VOTE RESULT");
 				builder.appendDesc("@here :thumbsup:投票が承認されたことをお知らせします。");
-				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
+				builder.appendField("賛成 / 反対 / 白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
-				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.ofHours(9))), false);
+				builder.appendField("投票開始日時",
+						sdf.format(new Date(timestamp.toEpochSecond(ZoneOffset.ofHours(9)) * 1000)), false);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -95,10 +97,11 @@ public class Task_MeetingVote extends TimerTask {
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("VOTE RESULT");
 				builder.appendDesc("@here :thumbsup:投票が否認されたことをお知らせします。");
-				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
+				builder.appendField("賛成 / 反対 / 白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
-				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.ofHours(9))), false);
+				builder.appendField("投票開始日時",
+						sdf.format(new Date(timestamp.toEpochSecond(ZoneOffset.ofHours(9)) * 1000)), false);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -116,10 +119,10 @@ public class Task_MeetingVote extends TimerTask {
 			}
 
 			long start = timestamp.toEpochSecond(ZoneOffset.ofHours(9));
-			long now = System.currentTimeMillis();
+			long now = TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis());
 
 			Calendar cal = Calendar.getInstance();
-			cal.setTimeInMillis(start);
+			cal.setTimeInMillis(TimeUnit.SECONDS.toMillis(start));
 			cal.add(Calendar.WEEK_OF_YEAR, 2);
 
 			if ((start + 1209600) <= now) {
@@ -127,7 +130,7 @@ public class Task_MeetingVote extends TimerTask {
 				EmbedBuilder builder = new EmbedBuilder();
 				builder.withTitle("VOTE RESULT");
 				builder.appendDesc("@here :wave:有効会議期限を過ぎたため、投票が否認されたことをお知らせします。");
-				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
+				builder.appendField("賛成 / 反対 / 白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
 				builder.appendField("投票開始日時",
@@ -135,10 +138,10 @@ public class Task_MeetingVote extends TimerTask {
 								+ timestamp.toEpochSecond(ZoneOffset.ofHours(9)) + ")",
 						false);
 				builder.appendField("有効会議期限",
-						sdf.format(cal.getTime()) + " (" + cal.getTimeInMillis() + ")",
+						sdf.format(cal.getTime()) + " (" + TimeUnit.MILLISECONDS.toSeconds(cal.getTimeInMillis()) + ")",
 						false);
 				builder.appendField("現在時刻",
-						sdf.format(new Date(now)) + " (" + now + ")",
+						sdf.format(new Date(TimeUnit.SECONDS.toMillis(now))) + " (" + now + ")",
 						false);
 				RequestBuffer.request(() -> {
 					try {
