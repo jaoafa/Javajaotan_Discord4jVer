@@ -52,7 +52,7 @@ public class Channel_597423974816808970 implements ChannelPremise {
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.WEEK_OF_YEAR, 4);
+		cal.add(Calendar.WEEK_OF_YEAR, 2);
 
 		EmbedBuilder builder = new EmbedBuilder();
 		builder.withTitle("NEW VOTE");

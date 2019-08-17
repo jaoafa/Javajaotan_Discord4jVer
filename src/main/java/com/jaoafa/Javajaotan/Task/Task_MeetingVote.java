@@ -3,6 +3,8 @@ package com.jaoafa.Javajaotan.Task;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Calendar;
 import java.util.List;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -51,7 +53,7 @@ public class Task_MeetingVote extends TimerTask {
 				String[] contents = content.split("\n");
 				Matcher m = p.matcher(contents[0]);
 				if (m.find()) {
-					if (!Library.isInt(m.group(0))) {
+					if (!Library.isInt(m.group(1))) {
 						continue;
 					}
 					_VoteBorder = Integer.valueOf(m.group(1));
@@ -73,7 +75,7 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
-				builder.appendField("投票開始日時", sdf.format(timestamp), false);
+				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"))), false);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -95,7 +97,48 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
-				builder.appendField("投票開始日時", sdf.format(timestamp), false);
+				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"))), false);
+				RequestBuffer.request(() -> {
+					try {
+						channel.sendMessage(builder.build());
+					} catch (DiscordException discordexception) {
+						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					}
+				});
+				RequestBuffer.request(() -> {
+					try {
+						channel.unpin(message);
+					} catch (DiscordException discordexception) {
+						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					}
+				});
+			}
+
+			long start = timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"));
+			long now = System.currentTimeMillis();
+
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(start);
+			cal.add(Calendar.WEEK_OF_YEAR, 2);
+
+			if ((start + 1209600) <= now) {
+				// 2週間 1209600秒
+				EmbedBuilder builder = new EmbedBuilder();
+				builder.withTitle("VOTE RESULT");
+				builder.appendDesc("@here :wave:有効会議期限を過ぎたため、投票が否認されたことをお知らせします。");
+				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
+				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
+				builder.appendField("内容", content, false);
+				builder.appendField("投票開始日時",
+						sdf.format(timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"))) + " ("
+								+ timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo")) + ")",
+						false);
+				builder.appendField("有効会議期限",
+						sdf.format(cal) + " (" + cal.getTimeInMillis() + ")",
+						false);
+				builder.appendField("現在時刻",
+						sdf.format(now) + " (" + now + ")",
+						false);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
