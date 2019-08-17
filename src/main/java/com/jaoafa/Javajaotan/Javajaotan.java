@@ -18,6 +18,7 @@ import com.jaoafa.Javajaotan.ALLChat.ALLChatMainEvent;
 import com.jaoafa.Javajaotan.Channel.ChannelMainEvent;
 import com.jaoafa.Javajaotan.Command.MessageMainEvent;
 import com.jaoafa.Javajaotan.Event.Event_MessageReceived;
+import com.jaoafa.Javajaotan.Event.Event_ReactionAddEvent;
 import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
 import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
@@ -106,6 +107,7 @@ public class Javajaotan {
 		dispatcher.registerListener(new Event_ServerLeave());
 		dispatcher.registerListener(new Event_ServerBanned());
 		dispatcher.registerListener(new Event_MessageReceived());
+		dispatcher.registerListener(new Event_ReactionAddEvent());
 
 		Runtime.getRuntime().addShutdownHook(
 				new Thread(

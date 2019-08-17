@@ -24,6 +24,9 @@ public class Channel_597423974816808970 implements ChannelPremise {
 	@Override
 	public void run(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			boolean edited) {
+		if (message.isSystemMessage()) {
+			return;
+		}
 		String content = message.getFormattedContent();
 		String border = null;
 		if (content.contains("\n")) {
@@ -31,7 +34,7 @@ public class Channel_597423974816808970 implements ChannelPremise {
 			Pattern p = Pattern.compile("\\[Border:([0-9]+)\\]");
 			Matcher m = p.matcher(contents[0]);
 			if (m.find()) {
-				border = m.group(0);
+				border = m.group(1);
 			}
 		}
 		String pinerr = null;
