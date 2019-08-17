@@ -75,7 +75,7 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
-				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"))), false);
+				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.ofHours(9))), false);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -97,7 +97,7 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("賛成 / 反対　/　白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
-				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"))), false);
+				builder.appendField("投票開始日時", sdf.format(timestamp.toEpochSecond(ZoneOffset.ofHours(9))), false);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -114,7 +114,7 @@ public class Task_MeetingVote extends TimerTask {
 				});
 			}
 
-			long start = timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"));
+			long start = timestamp.toEpochSecond(ZoneOffset.ofHours(9));
 			long now = System.currentTimeMillis();
 
 			Calendar cal = Calendar.getInstance();
@@ -130,8 +130,8 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
 				builder.appendField("投票開始日時",
-						sdf.format(timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo"))) + " ("
-								+ timestamp.toEpochSecond(ZoneOffset.of("Asia/Tokyo")) + ")",
+						sdf.format(timestamp.toEpochSecond(ZoneOffset.ofHours(9))) + " ("
+								+ timestamp.toEpochSecond(ZoneOffset.ofHours(9)) + ")",
 						false);
 				builder.appendField("有効会議期限",
 						sdf.format(cal) + " (" + cal.getTimeInMillis() + ")",
