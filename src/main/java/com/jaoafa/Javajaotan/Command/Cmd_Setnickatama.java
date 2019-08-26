@@ -130,4 +130,9 @@ public class Cmd_Setnickatama implements CommandPremise {
 	public String getUsage() {
 		return "/setnickatama [Count]";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
+	}
 }

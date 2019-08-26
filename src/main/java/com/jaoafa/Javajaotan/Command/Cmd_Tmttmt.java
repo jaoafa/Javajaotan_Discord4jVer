@@ -33,4 +33,9 @@ public class Cmd_Tmttmt implements CommandPremise {
 	public String getUsage() {
 		return "/tmttmt";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
+	}
 }

@@ -9,7 +9,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.jaoafa.Javajaotan.CommandPremise;
 import com.jaoafa.Javajaotan.Javajaotan;
-import com.jaoafa.Javajaotan.Lib.Library;
 import com.jaoafa.Javajaotan.Lib.MySQLDBManager;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -25,9 +24,6 @@ public class Cmd_Link implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
-		if (!Library.isNewjMSDiscordServer(guild)) {
-			return; // 新しいjMSDiscordServer以外では動作させない
-		}
 		MySQLDBManager MySQLDBManager = Javajaotan.MySQLDBManager;
 		if (MySQLDBManager == null) {
 			RequestBuffer.request(() -> {
@@ -113,5 +109,10 @@ public class Cmd_Link implements CommandPremise {
 				return authkey;
 			}
 		}
+	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return true;
 	}
 }

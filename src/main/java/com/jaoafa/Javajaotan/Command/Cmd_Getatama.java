@@ -142,4 +142,9 @@ public class Cmd_Getatama implements CommandPremise {
 	public String getUsage() {
 		return "/getatama [Count]";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
+	}
 }

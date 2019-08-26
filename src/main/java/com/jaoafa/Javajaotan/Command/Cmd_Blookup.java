@@ -37,4 +37,9 @@ public class Cmd_Blookup implements CommandPremise {
 	public String getUsage() {
 		return "/blookup <PlayerID>";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return true;
+	}
 }

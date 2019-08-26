@@ -35,4 +35,9 @@ public class Cmd_Recid implements CommandPremise {
 	public String getUsage() {
 		return "/recid";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
+	}
 }

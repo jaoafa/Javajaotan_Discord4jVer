@@ -30,4 +30,10 @@ public interface CommandPremise {
 	 * @return コマンドの使い方
 	 */
 	public String getUsage();
+
+	/**
+	 * jMS Gamers Clubのみで使用できるコマンドかどうかを返却します。
+	 * @return jMS Gamers Clubのみであればtrue
+	 */
+	public boolean isjMSOnly();
 }

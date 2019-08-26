@@ -53,4 +53,9 @@ public class Cmd_Bassline implements CommandPremise {
 	public String getUsage() {
 		return "/bassline [UserID|Text]";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
+	}
 }

@@ -74,4 +74,9 @@ public class Cmd_Chat implements CommandPremise {
 	public String getUsage() {
 		return "/chat [ChannelID] <Message>";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return true;
+	}
 }

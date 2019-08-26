@@ -41,6 +41,9 @@ public class Cmd_Help implements CommandPremise {
 
 					Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
 					CommandPremise cmd = (CommandPremise) construct.newInstance();
+					if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {
+						continue;
+					}
 					EmbedField field = new EmbedField(commandName.toLowerCase(), cmd.getDescription());
 					cmdList.add(field);
 				}
@@ -101,6 +104,9 @@ public class Cmd_Help implements CommandPremise {
 
 					Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
 					CommandPremise cmd = (CommandPremise) construct.newInstance();
+					if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {
+						continue;
+					}
 					EmbedField field = new EmbedField(commandName.toLowerCase(), cmd.getDescription());
 					cmdList.add(field);
 				}
@@ -159,7 +165,9 @@ public class Cmd_Help implements CommandPremise {
 			Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className)
 					.getConstructor();
 			CommandPremise cmd = (CommandPremise) construct.newInstance();
-
+			if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {
+				throw new ClassNotFoundException(); // 存在しないものとして。
+			}
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.withTitle("jaotan Command Help");
 			builder.withColor(Color.YELLOW);
@@ -208,5 +216,10 @@ public class Cmd_Help implements CommandPremise {
 	@Override
 	public String getUsage() {
 		return "/help [Command|Page]";
+	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
 	}
 }

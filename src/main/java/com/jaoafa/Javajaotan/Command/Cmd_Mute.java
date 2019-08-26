@@ -158,4 +158,9 @@ public class Cmd_Mute implements CommandPremise {
 	public String getUsage() {
 		return "/mute <add|remove|list> [UserID]";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return true;
+	}
 }

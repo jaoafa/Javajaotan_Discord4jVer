@@ -33,4 +33,9 @@ public class Cmd_Powa implements CommandPremise {
 	public String getUsage() {
 		return "/powa";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
+	}
 }

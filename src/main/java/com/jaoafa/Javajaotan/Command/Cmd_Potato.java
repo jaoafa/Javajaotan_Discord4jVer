@@ -33,4 +33,9 @@ public class Cmd_Potato implements CommandPremise {
 	public String getUsage() {
 		return "/potato";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return false;
+	}
 }

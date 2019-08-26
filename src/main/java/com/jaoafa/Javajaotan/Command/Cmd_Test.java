@@ -25,4 +25,9 @@ public class Cmd_Test implements CommandPremise {
 	public String getUsage() {
 		return "/test";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return true;
+	}
 }

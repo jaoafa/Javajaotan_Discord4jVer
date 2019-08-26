@@ -171,7 +171,7 @@ public class Library {
 		return author.hasRole(AdminRole) || author.hasRole(ModeratorRole);
 	}
 
-	public static boolean isNewjMSDiscordServer(IGuild guild) {
+	/*public static boolean isNewjMSDiscordServer(IGuild guild) {
 		return guild.getLongID() == 597378876556967936L;
-	}
+	}*/
 }

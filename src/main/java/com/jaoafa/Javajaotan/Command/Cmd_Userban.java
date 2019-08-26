@@ -88,4 +88,9 @@ public class Cmd_Userban implements CommandPremise {
 	public String getUsage() {
 		return "/userban <UserID>";
 	}
+
+	@Override
+	public boolean isjMSOnly() {
+		return true;
+	}
 }
