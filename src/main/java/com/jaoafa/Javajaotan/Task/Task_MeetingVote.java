@@ -31,7 +31,8 @@ public class Task_MeetingVote extends TimerTask {
 	public void run() {
 		IDiscordClient client = Javajaotan.getClient();
 
-		int VoteBorder = (int) Math.ceil(TeamJaoCount / 2);
+		double divided = TeamJaoCount / 2;
+		int VoteBorder = (int) Math.ceil(divided);
 		if (TeamJaoCount % 2 == 0) {
 			VoteBorder++;
 		}

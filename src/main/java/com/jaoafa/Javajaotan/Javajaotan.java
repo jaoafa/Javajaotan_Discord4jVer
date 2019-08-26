@@ -10,7 +10,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
 import java.util.Properties;
 import java.util.Timer;
 
@@ -35,7 +34,6 @@ import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
 public class Javajaotan {
-	public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	public static IChannel ReportChannel = null;
 	private static IDiscordClient client = null;
 	public static MySQLDBManager MySQLDBManager = null;

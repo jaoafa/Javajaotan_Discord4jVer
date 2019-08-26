@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -169,6 +171,11 @@ public class Library {
 			return false;
 		}
 		return author.hasRole(AdminRole) || author.hasRole(ModeratorRole);
+	}
+
+	public static String sdfFormat(Date date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		return sdf.format(date);
 	}
 
 	/*public static boolean isNewjMSDiscordServer(IGuild guild) {

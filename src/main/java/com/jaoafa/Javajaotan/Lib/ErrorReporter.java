@@ -47,7 +47,7 @@ public class ErrorReporter {
 			});
 		} catch (Exception e) {
 			try {
-				String text = "javajaotan Error Reporter (" + Javajaotan.sdf.format(new Date()) + ")\n"
+				String text = "javajaotan Error Reporter (" + Library.sdfFormat(new Date()) + ")\n"
 						+ "---------- StackTrace ----------\n"
 						+ sw.toString() + "\n"
 						+ "---------- Message ----------\n"

@@ -35,7 +35,7 @@ public class ChannelMainEvent {
 
 			Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className);
 			// クラスがない場合これ以降進まない
-			Constructor<?> construct = (Constructor<?>) Class
+			Constructor<?> construct = Class
 					.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
 			ChannelPremise cmd = (ChannelPremise) construct.newInstance();
 
@@ -67,7 +67,7 @@ public class ChannelMainEvent {
 
 			Class.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className);
 			// クラスがない場合これ以降進まない
-			Constructor<?> construct = (Constructor<?>) Class
+			Constructor<?> construct = Class
 					.forName("com.jaoafa.Javajaotan.Channel.Channel_" + className).getConstructor();
 			ChannelPremise chan = (ChannelPremise) construct.newInstance();
 

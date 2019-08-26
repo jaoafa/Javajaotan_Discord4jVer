@@ -34,7 +34,7 @@ public class MessageMainEvent {
 		RequestBuffer.request(() -> {
 			try {
 				event.getClient().getChannelByID(597766057117351937L)
-						.sendMessage("**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName() + "]** "
+						.sendMessage("**[" + Library.sdfFormat(new Date()) + " | " + Library.getHostName() + "]** "
 								+ "Start Javajaotan");
 			} catch (DiscordException discordexception) {
 				Javajaotan.DiscordExceptionError(getClass(), event.getClient().getChannelByID(597766057117351937L),
@@ -47,7 +47,7 @@ public class MessageMainEvent {
 						try {
 							event.getClient().getChannelByID(597766057117351937L)
 									.sendMessage(
-											"**[" + Javajaotan.sdf.format(new Date()) + " | " + Library.getHostName()
+											"**[" + Library.sdfFormat(new Date()) + " | " + Library.getHostName()
 													+ "]** "
 													+ "End Javajaotan");
 						} catch (DiscordException discordexception) {
@@ -96,7 +96,7 @@ public class MessageMainEvent {
 
 			Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className);
 			// クラスがない場合これ以降進まない
-			Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className)
+			Constructor<?> construct = Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className)
 					.getConstructor();
 			CommandPremise cmd = (CommandPremise) construct.newInstance();
 

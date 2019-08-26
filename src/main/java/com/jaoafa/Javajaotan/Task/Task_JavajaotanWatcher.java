@@ -8,7 +8,8 @@ import com.jaoafa.Javajaotan.Lib.Library;
 public class Task_JavajaotanWatcher extends TimerTask {
 	long firstlength;
 	String path;
-	public Task_JavajaotanWatcher(){
+
+	public Task_JavajaotanWatcher() {
 		System.out.println("[JavajaotanWatcher] JavajaotanWatcher start.");
 
 		String path = System.getProperty("java.class.path");
@@ -17,13 +18,14 @@ public class Task_JavajaotanWatcher extends TimerTask {
 		firstlength = file.length();
 		System.out.println("[JavajaotanWatcher] Length: " + firstlength);
 	}
+
 	@Override
-	public void run(){
+	public void run() {
 		String path = Library.getCurrentpath();
 		File file = new File(path);
 		long length = file.length();
 
-		if(firstlength != length){
+		if (firstlength != length) {
 			// changed?
 			System.out.println("FileSize Changed: " + firstlength + " -> " + length);
 			System.exit(0);

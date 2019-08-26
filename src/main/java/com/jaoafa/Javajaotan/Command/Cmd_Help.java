@@ -39,7 +39,7 @@ public class Cmd_Help implements CommandPremise {
 					}
 					String commandName = clazz.getName().substring("com.jaoafa.Javajaotan.Command.Cmd_".length());
 
-					Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
+					Constructor<?> construct = clazz.getConstructor();
 					CommandPremise cmd = (CommandPremise) construct.newInstance();
 					if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {
 						continue;
@@ -102,7 +102,7 @@ public class Cmd_Help implements CommandPremise {
 					}
 					String commandName = clazz.getName().substring("com.jaoafa.Javajaotan.Command.Cmd_".length());
 
-					Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
+					Constructor<?> construct = clazz.getConstructor();
 					CommandPremise cmd = (CommandPremise) construct.newInstance();
 					if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {
 						continue;
@@ -162,7 +162,7 @@ public class Cmd_Help implements CommandPremise {
 
 			Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className);
 			// クラスがない場合これ以降進まない
-			Constructor<?> construct = (Constructor<?>) Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className)
+			Constructor<?> construct = Class.forName("com.jaoafa.Javajaotan.Command.Cmd_" + className)
 					.getConstructor();
 			CommandPremise cmd = (CommandPremise) construct.newInstance();
 			if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {

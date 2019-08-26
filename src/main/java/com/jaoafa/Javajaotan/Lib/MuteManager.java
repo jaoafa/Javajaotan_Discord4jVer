@@ -12,9 +12,11 @@ public class MuteManager {
 	private static HashSet<String> mutes = null;
 
 	public static HashSet<String> refreshMuteList() {
-		if (mutes != null)
+		if (mutes != null) {
 			mutes.clear();
-		mutes = new HashSet<>();
+		} else {
+			mutes = new HashSet<>();
+		}
 
 		File sqliteFile = new File("mutes.db");
 		if (!sqliteFile.exists()) {

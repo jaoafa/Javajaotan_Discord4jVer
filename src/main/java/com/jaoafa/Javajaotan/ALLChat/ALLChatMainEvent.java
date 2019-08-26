@@ -36,7 +36,7 @@ public class ALLChatMainEvent {
 				if (!clazz.getName().startsWith("com.jaoafa.Javajaotan.ALLChat.ALL_")) {
 					continue;
 				}
-				Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
+				Constructor<?> construct = clazz.getConstructor();
 				ALLChatPremise allchat = (ALLChatPremise) construct.newInstance();
 				allchat.run(client, guild, channel, author, message, false);
 			}
@@ -67,7 +67,7 @@ public class ALLChatMainEvent {
 				if (!clazz.getName().startsWith("com.jaoafa.Javajaotan.ALLChat.ALL_")) {
 					continue;
 				}
-				Constructor<?> construct = (Constructor<?>) clazz.getConstructor();
+				Constructor<?> construct = clazz.getConstructor();
 				ALLChatPremise allchat = (ALLChatPremise) construct.newInstance();
 
 				if (!allchat.isAlsoTargetEdited()) {
