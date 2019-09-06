@@ -1,4 +1,5 @@
 # Javajaotan
+
 公式Discordサーバ「jMS Gamers Club」で動作するBot、jaotanのJavaバージョン
 
 ## 移植(移行)状況
@@ -8,7 +9,6 @@
 |o|/getatama||
 ||/steamreply||
 ||/meshi||
-||/story||
 |o|/blookup||
 ||/ngword||
 ||/t||
@@ -27,8 +27,8 @@
 ||/toenja||
 ||/dice||
 ||/toja||
-||/discordlink||
-||/link||
+|o|/discordlink||
+|o|/link||
 ||/tojaen||
 ||/disid2mcid||
 |o|/setnickatama||
@@ -57,3 +57,4 @@
 |x|/mcrestart|削除予定|
 |x|/friends|削除予定|
 |x|/meme|削除予定|
+|x|/story|削除予定|

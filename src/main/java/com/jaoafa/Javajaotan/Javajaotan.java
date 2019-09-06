@@ -37,6 +37,7 @@ public class Javajaotan {
 	public static IChannel ReportChannel = null;
 	private static IDiscordClient client = null;
 	public static MySQLDBManager MySQLDBManager = null;
+	public static String translateGAS = null;
 
 	public static void main(String[] args) {
 		File f = new File("conf.properties");
@@ -54,6 +55,7 @@ public class Javajaotan {
 			props.setProperty("sqlserver", "PLEASE");
 			props.setProperty("sqluser", "PLEASE");
 			props.setProperty("sqlpassword", "PLEASE");
+			props.setProperty("translateGAS", "PLEASE");
 			try {
 				props.store(new FileOutputStream("conf.properties"), "Comments");
 				System.out.println("Please Config Token!");
@@ -89,6 +91,10 @@ public class Javajaotan {
 		if (sqlpassword.equalsIgnoreCase("PLEASE")) {
 			System.out.println("Please Token!");
 			return;
+		}
+		translateGAS = props.getProperty("translateGAS");
+		if (translateGAS.equalsIgnoreCase("PLEASE")) {
+			translateGAS = null;
 		}
 		try {
 			MySQLDBManager = new MySQLDBManager(sqlserver, "3306", "jaoafa", sqluser, sqlpassword);

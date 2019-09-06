@@ -67,6 +67,12 @@ public class ALLChatMainEvent {
 				if (!clazz.getName().startsWith("com.jaoafa.Javajaotan.ALLChat.ALL_")) {
 					continue;
 				}
+				if (clazz.getEnclosingClass() != null) {
+					continue;
+				}
+				if (clazz.getName().contains("$")) {
+					continue;
+				}
 				Constructor<?> construct = clazz.getConstructor();
 				ALLChatPremise allchat = (ALLChatPremise) construct.newInstance();
 
