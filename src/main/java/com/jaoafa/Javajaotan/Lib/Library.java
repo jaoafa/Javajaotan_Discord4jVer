@@ -2,21 +2,45 @@ package com.jaoafa.Javajaotan.Lib;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.google.common.base.Optional;
+import com.jaoafa.Javajaotan.Javajaotan;
+import com.optimaize.langdetect.DetectedLanguage;
+import com.optimaize.langdetect.LanguageDetector;
+import com.optimaize.langdetect.LanguageDetectorBuilder;
+import com.optimaize.langdetect.i18n.LdLocale;
+import com.optimaize.langdetect.ngram.NgramExtractors;
+import com.optimaize.langdetect.profiles.LanguageProfile;
+import com.optimaize.langdetect.profiles.LanguageProfileReader;
+import com.optimaize.langdetect.text.CommonTextObjectFactories;
+import com.optimaize.langdetect.text.TextObject;
+import com.optimaize.langdetect.text.TextObjectFactory;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IRole;
 import sx.blah.discord.handle.obj.IUser;
@@ -181,4 +205,140 @@ public class Library {
 	/*public static boolean isNewjMSDiscordServer(IGuild guild) {
 		return guild.getLongID() == 597378876556967936L;
 	}*/
+
+	public static String GoogleTranslateWeb(String text, String from, String to) {
+		try {
+			String encodeText = URLEncoder.encode(text, "UTF-8");
+			String url = "http://translate.google.com/translate_a/t?client=z&sl=" + from + "&tl=" + to + "&text="
+					+ encodeText;
+			OkHttpClient client = new OkHttpClient();
+			Request request = new Request.Builder().url(url).header("User-Agent", "hoge").build();
+			Response response = client.newCall(request).execute();
+			if (response.code() == 429) {
+				return null;
+			}
+			String res = response.body().string();
+			response.close();
+			System.out.println("GoogleTranslateWeb Result: " + res);
+			if (res.substring(0, 1).equals("[") && res.substring(res.length() - 1).equals("]")) {
+				// json | auto?
+				JSONArray json = new JSONArray(res);
+				if (json.length() == 2) {
+					from = json.getString(1);
+					return json.getString(0);
+				}
+				return res;
+			} else if (res.substring(0, 1).equals("\"") && res.substring(res.length() - 1).equals("\"")) {
+				return res.substring(1, res.length() - 1);
+			} else {
+				return res;
+			}
+			// auto ["こんにちは","en"]
+			// other "こんにちは"
+		} catch (UnsupportedEncodingException e) {
+			ErrorReporter.report(e);
+			return null;
+		} catch (IOException e) {
+			ErrorReporter.report(e);
+			return null;
+		} catch (JSONException e) {
+			ErrorReporter.report(e);
+			return null;
+		}
+	}
+
+	public static String getLang(String text) throws IOException {
+		List<LanguageProfile> languageProfiles = new LanguageProfileReader().readAllBuiltIn();
+		LanguageDetector languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
+				.withProfiles(languageProfiles)
+				.build();
+
+		TextObjectFactory textObjectFactory;
+		if (text.contains(" ") || text.contains("　")) {
+			textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
+		} else {
+			textObjectFactory = CommonTextObjectFactories.forDetectingShortCleanText();
+		}
+
+		TextObject textObject = textObjectFactory.forText(text);
+		Optional<LdLocale> lang = languageDetector.detect(textObject);
+		List<DetectedLanguage> langs = languageDetector.getProbabilities(textObject);
+		if (lang.isPresent()) {
+			return lang.get().getLanguage();
+		} else if (!langs.isEmpty()) {
+			return langs.get(0).getLocale().getLanguage();
+		}
+		return null;
+	}
+
+	/**
+	 * 日本語・英語・簡体字中国語・フランス語・ドイツ語・スペイン語・タイ語
+	 * @param text
+	 * @return
+	 * @throws IOException
+	 */
+	public static String getRefineLang(String text) throws IOException {
+		List<LdLocale> languages = new ArrayList<>();
+		languages.add(LdLocale.fromString("ja"));
+		languages.add(LdLocale.fromString("en"));
+		languages.add(LdLocale.fromString("fr"));
+		languages.add(LdLocale.fromString("de"));
+		languages.add(LdLocale.fromString("es"));
+		languages.add(LdLocale.fromString("th"));
+		List<LanguageProfile> languageProfiles = new LanguageProfileReader().readBuiltIn(languages);
+		LanguageDetector languageDetector = LanguageDetectorBuilder.create(NgramExtractors.standard())
+				.withProfiles(languageProfiles)
+				.build();
+
+		TextObjectFactory textObjectFactory;
+		if (text.contains(" ") || text.contains("　")) {
+			textObjectFactory = CommonTextObjectFactories.forDetectingOnLargeText();
+		} else {
+			textObjectFactory = CommonTextObjectFactories.forDetectingShortCleanText();
+		}
+
+		TextObject textObject = textObjectFactory.forText(text);
+		Optional<LdLocale> lang = languageDetector.detect(textObject);
+		List<DetectedLanguage> langs = languageDetector.getProbabilities(textObject);
+		if (lang.isPresent()) {
+			return lang.get().getLanguage();
+		} else if (!langs.isEmpty()) {
+			return langs.get(0).getLocale().getLanguage();
+		}
+		return null;
+	}
+
+	public static String GoogleTranslateGAS(String text, String from, String to) {
+		if (Javajaotan.translateGAS == null) {
+			return null;
+		}
+		try {
+			String url = Javajaotan.translateGAS;
+			FormBody.Builder formBuilder = new FormBody.Builder();
+			formBuilder.add("text", text);
+			formBuilder.add("before", from);
+			formBuilder.add("after", to);
+			RequestBody body = formBuilder.build();
+
+			OkHttpClient client = new OkHttpClient();
+			Request request = new Request.Builder().url(url).post(body).build();
+			Response response = client.newCall(request).execute();
+			if (response.code() != 200 && response.code() != 302) {
+				return null;
+			}
+			JSONObject json = new JSONObject(response.body().string());
+			response.close();
+			String res = json.getJSONObject("params").getJSONObject("parameter").getString("result");
+			if (res.equalsIgnoreCase("undefined")) {
+				return null;
+			}
+			return res;
+		} catch (UnsupportedEncodingException e) {
+			ErrorReporter.report(e);
+			return null;
+		} catch (IOException e) {
+			ErrorReporter.report(e);
+			return null;
+		}
+	}
 }

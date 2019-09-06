@@ -18,7 +18,7 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
-public class Cmd_Toen implements CommandPremise {
+public class Cmd_Toenja implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
@@ -73,14 +73,24 @@ public class Cmd_Toen implements CommandPremise {
 			});
 			return;
 		}
+
+		String res2 = Library.GoogleTranslateWeb(res, to, "ja");
+		String source2 = "GoogleTranslateWeb";
+		if (res2 == null) {
+			res2 = Library.GoogleTranslateGAS(res, to, "ja");
+			source2 = "GoogleTranslateGAS";
+		}
+
 		final String _res = res;
+		final String _res2 = res2;
 		final String _from = from;
 		final String _to = to;
 		final String _source = source;
+		final String _source2 = source2;
 		RequestBuffer.request(() -> {
 			try {
-				message.reply("```" + String.join(" ", texts) + "```↓```" + _res + "```(`" + _from + "` -> `" + _to
-						+ "` | SOURCE: `" + _source + "`)");
+				message.reply("```" + String.join(" ", texts) + "```↓```" + _res + "```↓```" + _res2 + "```(`" + _from
+						+ "` -> `" + _to + "` -> `ja` | SOURCE: `" + _source + " | " + _source2 + "`)");
 			} catch (DiscordException discordexception) {
 				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
 			}
@@ -89,13 +99,13 @@ public class Cmd_Toen implements CommandPremise {
 
 	@Override
 	public String getDescription() {
-		return "指定されたテキストを英語(en)に翻訳します。「from:<LANG>」を指定すると元言語を設定できます。指定しないと自動で判定します。\n"
+		return "指定されたテキストを英語(en)に翻訳したあと、さらに日本語(ja)に翻訳します。「from:<LANG>」を指定すると元言語を設定できます。指定しないと自動で判定します。\n"
 				+ "明示的にfrom:autoを指定すると、翻訳サービス側での言語判定がなされます。明示指定しないと、Javajaotan側で判定しその結果を元言語として判定します。";
 	}
 
 	@Override
 	public String getUsage() {
-		return "/toen <Text...> [from:LANG]";
+		return "/toenja <Text...> [from:LANG]";
 	}
 
 	@Override

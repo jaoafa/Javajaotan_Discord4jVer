@@ -18,7 +18,7 @@ import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
 
-public class Cmd_Toen implements CommandPremise {
+public class Cmd_Toja implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
@@ -28,7 +28,7 @@ public class Cmd_Toen implements CommandPremise {
 		if (froms.size() != 0) {
 			from = froms.get(0).substring("from:".length());
 		}
-		String to = "en";
+		String to = "ja";
 		List<String> texts = Arrays.stream(args).filter(
 				arg -> arg != null && !arg.startsWith("from:") && !arg.startsWith("to:")).collect(Collectors.toList());
 		if (texts.size() == 0) {
@@ -89,13 +89,13 @@ public class Cmd_Toen implements CommandPremise {
 
 	@Override
 	public String getDescription() {
-		return "指定されたテキストを英語(en)に翻訳します。「from:<LANG>」を指定すると元言語を設定できます。指定しないと自動で判定します。\n"
+		return "指定されたテキストを日本語(ja)に翻訳します。「from:<LANG>」を指定すると元言語を設定できます。指定しないと自動で判定します。\n"
 				+ "明示的にfrom:autoを指定すると、翻訳サービス側での言語判定がなされます。明示指定しないと、Javajaotan側で判定しその結果を元言語として判定します。";
 	}
 
 	@Override
 	public String getUsage() {
-		return "/toen <Text...> [from:LANG]";
+		return "/toja <Text...> [from:LANG]";
 	}
 
 	@Override

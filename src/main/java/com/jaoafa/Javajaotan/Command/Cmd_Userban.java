@@ -81,7 +81,7 @@ public class Cmd_Userban implements CommandPremise {
 
 	@Override
 	public String getDescription() {
-		return "指定されたユーザーをBanします。";
+		return "指定されたユーザーをBanします。特定のチャンネルでのみ使用できます。";
 	}
 
 	@Override

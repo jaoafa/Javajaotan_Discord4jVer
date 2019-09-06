@@ -72,7 +72,7 @@ public class Cmd_Chat implements CommandPremise {
 
 	@Override
 	public String getUsage() {
-		return "/chat [ChannelID] <Message>";
+		return "/chat [ChannelID] <Message...>";
 	}
 
 	@Override
