@@ -3,7 +3,7 @@ package com.jaoafa.Javajaotan.Command;
 import java.util.Arrays;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.Library;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -36,7 +36,7 @@ public class Cmd_Chat implements CommandPremise {
 							try {
 								message.reply("指定されたチャンネルが見つかりません。");
 							} catch (DiscordException discordexception) {
-								Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+								Main.DiscordExceptionError(getClass(), channel, discordexception);
 							}
 						});
 						return;
@@ -60,7 +60,7 @@ public class Cmd_Chat implements CommandPremise {
 			try {
 				sendToChannel.sendMessage(content);
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}

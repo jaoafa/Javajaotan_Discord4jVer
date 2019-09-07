@@ -9,10 +9,9 @@ import java.util.List;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.ClassFinder;
 import com.jaoafa.Javajaotan.Lib.EmbedField;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -53,10 +52,10 @@ public class Cmd_Help implements CommandPremise {
 						message.reply("処理に失敗しました。時間を置いてもう一度お試しください。\n"
 								+ "**Message**: `" + e.getMessage() + "`");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
-				ErrorReporter.report(e);
+				Main.ExceptionReporter(channel, e);
 				return;
 			}
 			// todo: /help 2など対応、文字数計算・自動的に切ってページネーションする
@@ -86,7 +85,7 @@ public class Cmd_Help implements CommandPremise {
 				try {
 					channel.sendMessage(builder.build());
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -116,10 +115,10 @@ public class Cmd_Help implements CommandPremise {
 						message.reply("処理に失敗しました。時間を置いてもう一度お試しください。\n"
 								+ "**Message**: `" + e.getMessage() + "`");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
-				ErrorReporter.report(e);
+				Main.ExceptionReporter(channel, e);
 				return;
 			}
 			// todo: /help 2など対応、文字数計算・自動的に切ってページネーションする
@@ -151,7 +150,7 @@ public class Cmd_Help implements CommandPremise {
 				try {
 					channel.sendMessage(builder.build());
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -178,7 +177,7 @@ public class Cmd_Help implements CommandPremise {
 				try {
 					channel.sendMessage(builder.build());
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		} catch (ClassNotFoundException e) {
@@ -191,7 +190,7 @@ public class Cmd_Help implements CommandPremise {
 				try {
 					channel.sendMessage(builder.build());
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
@@ -201,10 +200,10 @@ public class Cmd_Help implements CommandPremise {
 					message.reply("処理に失敗しました。時間を置いてもう一度お試しください。\n"
 							+ "**Message**: `" + e.getMessage() + "`");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 		}
 	}
 

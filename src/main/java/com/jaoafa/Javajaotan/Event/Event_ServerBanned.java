@@ -1,6 +1,6 @@
 package com.jaoafa.Javajaotan.Event;
 
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.member.UserBanEvent;
@@ -22,7 +22,7 @@ public class Event_ServerBanned {
 				channel.sendMessage(":no_pedestrians:" + user.getName() + "#" + user.getDiscriminator()
 						+ "がjMS Gamers ClubからBanされました。");
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}

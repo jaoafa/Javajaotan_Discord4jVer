@@ -3,8 +3,8 @@ package com.jaoafa.Javajaotan.ALLChat;
 import java.lang.reflect.Constructor;
 
 import com.jaoafa.Javajaotan.ALLChatPremise;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.ClassFinder;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
 import com.jaoafa.Javajaotan.Lib.MuteManager;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -41,7 +41,7 @@ public class ALLChatMainEvent {
 				allchat.run(client, guild, channel, author, message, false);
 			}
 		} catch (Exception e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 			return;
 		}
 	}
@@ -83,7 +83,7 @@ public class ALLChatMainEvent {
 				allchat.run(client, guild, channel, author, message, true);
 			}
 		} catch (Exception e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 			return;
 		}
 	}

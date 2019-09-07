@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.Library;
 import com.jaoafa.Javajaotan.Lib.MuteManager;
 
@@ -26,7 +26,7 @@ public class Cmd_Mute implements CommandPremise {
 				try {
 					message.reply("あなたはこのコマンドを使用できません。");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -44,7 +44,7 @@ public class Cmd_Mute implements CommandPremise {
 				try {
 					message.reply("このチャンネルではこのコマンドを使用できません。");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -59,7 +59,7 @@ public class Cmd_Mute implements CommandPremise {
 						try {
 							message.reply("指定されたユーザーは既にミュートされています。");
 						} catch (DiscordException discordexception) {
-							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+							Main.DiscordExceptionError(getClass(), channel, discordexception);
 						}
 					});
 					return;
@@ -69,7 +69,7 @@ public class Cmd_Mute implements CommandPremise {
 						try {
 							message.reply("数値を指定してください。");
 						} catch (DiscordException discordexception) {
-							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+							Main.DiscordExceptionError(getClass(), channel, discordexception);
 						}
 					});
 					return;
@@ -79,7 +79,7 @@ public class Cmd_Mute implements CommandPremise {
 					try {
 						message.reply("ミュートリストに追加しました : <@" + userid + ">");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				return;
@@ -92,7 +92,7 @@ public class Cmd_Mute implements CommandPremise {
 						try {
 							message.reply("指定されたユーザーはミュートされていません。");
 						} catch (DiscordException discordexception) {
-							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+							Main.DiscordExceptionError(getClass(), channel, discordexception);
 						}
 					});
 					return;
@@ -102,7 +102,7 @@ public class Cmd_Mute implements CommandPremise {
 						try {
 							message.reply("数値を指定してください。");
 						} catch (DiscordException discordexception) {
-							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+							Main.DiscordExceptionError(getClass(), channel, discordexception);
 						}
 					});
 					return;
@@ -112,7 +112,7 @@ public class Cmd_Mute implements CommandPremise {
 					try {
 						message.reply("ミュートリストから解除しました : <@" + userid + ">");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				return;
@@ -133,7 +133,7 @@ public class Cmd_Mute implements CommandPremise {
 					try {
 						message.reply("ミュートリスト```" + String.join(", ", replyList) + "```");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				return;
@@ -142,7 +142,7 @@ public class Cmd_Mute implements CommandPremise {
 				try {
 					message.reply(getUsage());
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;

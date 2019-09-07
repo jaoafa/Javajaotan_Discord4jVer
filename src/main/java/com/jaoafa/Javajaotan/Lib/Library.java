@@ -24,7 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.common.base.Optional;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 import com.optimaize.langdetect.DetectedLanguage;
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
@@ -115,8 +115,7 @@ public class Library {
 			JSONObject json = new JSONObject(builder.toString());
 			return json;
 		} catch (Exception e) {
-			e.printStackTrace();
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		}
 	}
@@ -153,7 +152,7 @@ public class Library {
 		try {
 			return InetAddress.getLocalHost().getHostName();
 		} catch (Exception e) {
-			e.printStackTrace();
+			Main.ExceptionReporter(null, e);
 			return null;
 		}
 	}
@@ -236,13 +235,13 @@ public class Library {
 			// auto ["こんにちは","en"]
 			// other "こんにちは"
 		} catch (UnsupportedEncodingException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		} catch (IOException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		} catch (JSONException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		}
 	}
@@ -309,11 +308,11 @@ public class Library {
 	}
 
 	public static String GoogleTranslateGAS(String text, String from, String to) {
-		if (Javajaotan.translateGAS == null) {
+		if (Main.translateGAS == null) {
 			return null;
 		}
 		try {
-			String url = Javajaotan.translateGAS;
+			String url = Main.translateGAS;
 			FormBody.Builder formBuilder = new FormBody.Builder();
 			formBuilder.add("text", text);
 			formBuilder.add("before", from);
@@ -334,10 +333,10 @@ public class Library {
 			}
 			return res;
 		} catch (UnsupportedEncodingException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		} catch (IOException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		}
 	}

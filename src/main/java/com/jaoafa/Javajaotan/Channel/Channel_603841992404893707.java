@@ -1,7 +1,7 @@
 package com.jaoafa.Javajaotan.Channel;
 
 import com.jaoafa.Javajaotan.ChannelPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
@@ -31,7 +31,7 @@ public class Channel_603841992404893707 implements ChannelPremise {
 				try {
 					message.reply("<@221991565567066112> ROLE IS NOT FOUND");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;

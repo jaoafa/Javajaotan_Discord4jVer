@@ -1,5 +1,6 @@
 package com.jaoafa.Javajaotan;
 
+import java.awt.Color;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,8 +11,12 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.Properties;
 import java.util.Timer;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.jaoafa.Javajaotan.ALLChat.ALLChatMainEvent;
 import com.jaoafa.Javajaotan.Channel.ChannelMainEvent;
@@ -21,7 +26,7 @@ import com.jaoafa.Javajaotan.Event.Event_ReactionAddEvent;
 import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
 import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Lib.Library;
 import com.jaoafa.Javajaotan.Lib.MySQLDBManager;
 import com.jaoafa.Javajaotan.Task.Task_MeetingVote;
 import com.jaoafa.Javajaotan.Task.Task_VerifiedCheck;
@@ -31,9 +36,10 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.EventDispatcher;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.EmbedBuilder;
 import sx.blah.discord.util.RequestBuffer;
 
-public class Javajaotan {
+public class Main {
 	public static IChannel ReportChannel = null;
 	private static IDiscordClient client = null;
 	public static MySQLDBManager MySQLDBManager = null;
@@ -140,26 +146,33 @@ public class Javajaotan {
 				return clientBuilder.build(); // Creates the client instance but it doesn't log the client in yet, you would have to call client.login() yourself
 			}
 		} catch (DiscordException e) { // This is thrown if there was a problem building the client
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		}
 	}
 
 	public static void setClient(IDiscordClient client) {
-		Javajaotan.client = client;
+		Main.client = client;
 	}
 
 	public static IDiscordClient getClient() {
 		return client;
 	}
 
-	public static void DiscordExceptionError(Class<?> clazz, IChannel channel, DiscordException exception) {
-		if (channel == null && Javajaotan.ReportChannel != null) {
-			channel = Javajaotan.ReportChannel;
+	public static void DiscordExceptionError(@NotNull Class<?> clazz, @Nullable IChannel channel,
+			@NotNull DiscordException exception) {
+		if (channel == null && Main.ReportChannel != null) {
+			channel = Main.ReportChannel;
 		} else if (channel == null) {
 			System.out.println("DiscordExceptionError: channel == null and Javajaotan.ReportChannel == null.");
 			System.out.println("DiscordExceptionError did not work properly!");
 			return;
+		}
+		if (clazz == null) {
+			throw new NullPointerException("Class<?> clazz is null!");
+		}
+		if (exception == null) {
+			throw new NullPointerException("DiscordException exception is null!");
 		}
 		final IChannel FINALCHANNEL = channel;
 		StringWriter sw = new StringWriter();
@@ -182,6 +195,68 @@ public class Javajaotan {
 						+ exception.getErrorMessage() + "`\n**Class**: `" + clazz.getName()
 						+ "`\nUnsupportedEncodingException: `" + ex.getMessage() + "`");
 			});
+		}
+	}
+
+	public static void ExceptionReporter(@Nullable IChannel channel, @NotNull Throwable exception) {
+		if (channel != null && Main.ReportChannel != null) {
+			RequestBuffer.request(() -> {
+				channel.sendMessage(
+						":pencil:おっと！Javajaotanでなにか問題が発生したようです！ <@221991565567066112>\n**Throwable Class**: `"
+								+ exception.getClass().getName() + "`");
+			});
+		} else if (channel == null) {
+			System.out.println("ExceptionReporter: channel == null and Javajaotan.ReportChannel == null.");
+			System.out.println("ExceptionReporter did not work properly!");
+			return;
+		}
+		if (exception == null) {
+			throw new NullPointerException("Throwable exception is null!");
+		}
+		exception.printStackTrace();
+
+		StringWriter sw = new StringWriter();
+		PrintWriter pw = new PrintWriter(sw);
+		exception.printStackTrace(pw);
+
+		try {
+			EmbedBuilder builder = new EmbedBuilder();
+			builder.withTitle("javajaotan Error Reporter");
+			builder.withColor(Color.RED);
+			builder.appendField("StackTrace", "```" + sw.toString() + "```", false);
+			builder.appendField("Message", "```" + exception.getMessage() + "```", false);
+			builder.appendField("Cause", "```" + exception.getCause() + "```", false);
+			builder.withTimestamp(System.currentTimeMillis());
+			RequestBuffer.request(() -> {
+				try {
+					Main.ReportChannel.sendMessage(builder.build());
+				} catch (DiscordException discordexception) {
+					Main.DiscordExceptionError(Main.class, Main.ReportChannel, discordexception);
+				}
+			});
+		} catch (Exception e) {
+			try {
+				String text = "javajaotan Error Reporter (" + Library.sdfFormat(new Date()) + ")\n"
+						+ "---------- StackTrace ----------\n"
+						+ sw.toString() + "\n"
+						+ "---------- Message ----------\n"
+						+ exception.getMessage() + "\n"
+						+ "---------- Cause ----------\n"
+						+ exception.getCause();
+				InputStream stream = new ByteArrayInputStream(
+						text.getBytes("utf-8"));
+				RequestBuffer.request(() -> {
+					try {
+						Main.ReportChannel.sendFile("javajaotan Error Reporter", stream,
+								"Javajaotanreport" + System.currentTimeMillis() + ".txt");
+					} catch (DiscordException discordexception) {
+						Main.DiscordExceptionError(Main.class, Main.ReportChannel,
+								discordexception);
+					}
+				});
+			} catch (UnsupportedEncodingException ex) {
+				return;
+			}
 		}
 	}
 }

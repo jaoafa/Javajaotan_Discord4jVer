@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.Library;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -29,7 +29,7 @@ public class Task_MeetingVote extends TimerTask {
 
 	@Override
 	public void run() {
-		IDiscordClient client = Javajaotan.getClient();
+		IDiscordClient client = Main.getClient();
 
 		double divided = TeamJaoCount / 2;
 		int VoteBorder = (int) Math.ceil(divided);
@@ -84,14 +84,14 @@ public class Task_MeetingVote extends TimerTask {
 					try {
 						channel.sendMessage(builder.build());
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				RequestBuffer.request(() -> {
 					try {
 						channel.unpin(message);
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 			} else if (bad_count >= _VoteBorder) {
@@ -107,14 +107,14 @@ public class Task_MeetingVote extends TimerTask {
 					try {
 						channel.sendMessage(builder.build());
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				RequestBuffer.request(() -> {
 					try {
 						channel.unpin(message);
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 			}
@@ -148,14 +148,14 @@ public class Task_MeetingVote extends TimerTask {
 					try {
 						channel.sendMessage(builder.build());
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				RequestBuffer.request(() -> {
 					try {
 						channel.unpin(message);
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 			}

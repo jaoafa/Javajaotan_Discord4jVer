@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.Library;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -36,7 +35,7 @@ public class Cmd_Toja implements CommandPremise {
 				try {
 					message.reply("引数が適切ではありません。");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -52,7 +51,7 @@ public class Cmd_Toja implements CommandPremise {
 					from = "auto";
 				}
 			} catch (IOException e) {
-				ErrorReporter.report(e);
+				Main.ExceptionReporter(channel, e);
 				from = "auto";
 			}
 		}
@@ -68,7 +67,7 @@ public class Cmd_Toja implements CommandPremise {
 				try {
 					message.reply("翻訳に失敗しました。");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -82,7 +81,7 @@ public class Cmd_Toja implements CommandPremise {
 				message.reply("```" + String.join(" ", texts) + "```↓```" + _res + "```(`" + _from + "` -> `" + _to
 						+ "` | SOURCE: `" + _source + "`)");
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}

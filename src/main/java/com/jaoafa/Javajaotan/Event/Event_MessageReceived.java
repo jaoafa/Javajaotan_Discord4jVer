@@ -1,6 +1,6 @@
 package com.jaoafa.Javajaotan.Event;
 
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
@@ -47,7 +47,7 @@ public class Event_MessageReceived {
 				try {
 					message.reply("はいっ！お呼びですか？");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}
@@ -56,7 +56,7 @@ public class Event_MessageReceived {
 				try {
 					message.reply("はいっ！お呼びで…はい？\njaotanは``jaotan``であって``Jaotan``じゃないです！人の名前を間違えるなんてひどい！人間のCrime！");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}
@@ -66,7 +66,7 @@ public class Event_MessageReceived {
 				try {
 					message.reply("はいっ！お呼びで…。ああ、論外です。御帰り願います。");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}
@@ -75,7 +75,7 @@ public class Event_MessageReceived {
 				try {
 					message.reply("はいっ！あっ、呼んだわけではないんですね…");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}

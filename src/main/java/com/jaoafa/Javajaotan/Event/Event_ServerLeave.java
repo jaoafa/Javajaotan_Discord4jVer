@@ -1,6 +1,6 @@
 package com.jaoafa.Javajaotan.Event;
 
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.member.UserLeaveEvent;
@@ -22,7 +22,7 @@ public class Event_ServerLeave {
 				channel.sendMessage(
 						":wave:" + user.getName() + "#" + user.getDiscriminator() + "がjMS Gamers Clubから退出しました。");
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}

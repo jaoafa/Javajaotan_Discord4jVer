@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -39,7 +39,7 @@ public class Cmd_Bassline implements CommandPremise {
 						+ "道の上で寝たり、女の子に声をかけたりしたらいけないんだよ罪の容疑で、\n"
 						+ "自称優良物件、" + finalreplyId + "容疑者が逮捕されました。");
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}

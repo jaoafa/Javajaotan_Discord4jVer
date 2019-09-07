@@ -1,7 +1,7 @@
 package com.jaoafa.Javajaotan.ALLChat;
 
 import com.jaoafa.Javajaotan.ALLChatPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -28,7 +28,7 @@ public class ALL_Calledjaotan implements ALLChatPremise {
 				try {
 					message.reply("はいっ！お呼びですか？");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}
@@ -37,7 +37,7 @@ public class ALL_Calledjaotan implements ALLChatPremise {
 				try {
 					message.reply("はいっ！お呼びで…はい？\njaotanは``jaotan``であって``Jaotan``じゃないです！人の名前を間違えるなんてひどい！人間のCrime！");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}
@@ -47,7 +47,7 @@ public class ALL_Calledjaotan implements ALLChatPremise {
 				try {
 					message.reply("はいっ！お呼びで…。ああ、論外です。御帰り願います。");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}

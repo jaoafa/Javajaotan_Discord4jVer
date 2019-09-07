@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.jaoafa.Javajaotan.ChannelPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.Library;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -46,7 +46,7 @@ public class Channel_597423974816808970 implements ChannelPremise {
 				try {
 					message.addReaction(ReactionEmoji.of("❌")); // :x:
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}
@@ -74,7 +74,7 @@ public class Channel_597423974816808970 implements ChannelPremise {
 			try {
 				channel.sendMessage(builder.build());
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}

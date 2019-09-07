@@ -1,7 +1,7 @@
 package com.jaoafa.Javajaotan.ALLChat;
 
 import com.jaoafa.Javajaotan.ALLChatPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.impl.obj.ReactionEmoji;
@@ -25,7 +25,7 @@ public class ALL_MessagePin implements ALLChatPremise {
 						try {
 							message.addReaction(ReactionEmoji.of("📌"));
 						} catch (DiscordException discordexception) {
-							Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+							Main.DiscordExceptionError(getClass(), channel, discordexception);
 						}
 					});
 					return;
@@ -37,7 +37,7 @@ public class ALL_MessagePin implements ALLChatPremise {
 						message.addReaction(ReactionEmoji.of("❌")); // :x:
 						message.reply("メッセージをピン止めするのに失敗しました…。```" + e.getErrorMessage() + "```");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 			}
@@ -45,7 +45,7 @@ public class ALL_MessagePin implements ALLChatPremise {
 				try {
 					message.addReaction(ReactionEmoji.of("📌")); // :pushpin:
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 		}

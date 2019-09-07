@@ -1,7 +1,7 @@
 package com.jaoafa.Javajaotan.Command;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -23,7 +23,7 @@ public class Cmd_Blookup implements CommandPremise {
 			try {
 				message.reply("ブロック編集等のデータ: https://jaoafa.com/tomachi/co.php?player=" + args[0]);
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}

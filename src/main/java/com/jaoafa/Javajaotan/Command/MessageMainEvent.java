@@ -6,8 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.Library;
 import com.jaoafa.Javajaotan.Lib.MuteManager;
 
@@ -27,9 +26,9 @@ public class MessageMainEvent {
 	public void onReadyEvent(ReadyEvent event) {
 		System.out.println("Ready: " + event.getClient().getOurUser().getName());
 
-		Javajaotan.setClient(event.getClient());
+		Main.setClient(event.getClient());
 
-		Javajaotan.ReportChannel = event.getClient().getChannelByID(597766057117351937L);
+		Main.ReportChannel = event.getClient().getChannelByID(597766057117351937L);
 
 		RequestBuffer.request(() -> {
 			try {
@@ -37,7 +36,7 @@ public class MessageMainEvent {
 						.sendMessage("**[" + Library.sdfFormat(new Date()) + " | " + Library.getHostName() + "]** "
 								+ "Start Javajaotan");
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), event.getClient().getChannelByID(597766057117351937L),
+				Main.DiscordExceptionError(getClass(), event.getClient().getChannelByID(597766057117351937L),
 						discordexception);
 			}
 		});
@@ -51,7 +50,7 @@ public class MessageMainEvent {
 													+ "]** "
 													+ "End Javajaotan");
 						} catch (DiscordException discordexception) {
-							Javajaotan.DiscordExceptionError(getClass(),
+							Main.DiscordExceptionError(getClass(),
 									event.getClient().getChannelByID(597766057117351937L), discordexception);
 						}
 					});
@@ -110,7 +109,7 @@ public class MessageMainEvent {
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			// error
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 		}
 	}
 }

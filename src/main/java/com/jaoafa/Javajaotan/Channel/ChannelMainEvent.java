@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import com.jaoafa.Javajaotan.ChannelPremise;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.MuteManager;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -45,7 +45,7 @@ public class ChannelMainEvent {
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			// error
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 		}
 	}
 
@@ -81,7 +81,7 @@ public class ChannelMainEvent {
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 				| NoSuchMethodException | SecurityException e) {
 			// error
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 		}
 	}
 }

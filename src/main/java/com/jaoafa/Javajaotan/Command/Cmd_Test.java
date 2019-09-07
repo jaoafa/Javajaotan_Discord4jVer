@@ -1,7 +1,7 @@
 package com.jaoafa.Javajaotan.Command;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Main;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -13,7 +13,7 @@ public class Cmd_Test implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
-		ErrorReporter.report(new NullPointerException("NullPointerException"));
+		Main.ExceptionReporter(channel, new NullPointerException("NullPointerException"));
 	}
 
 	@Override

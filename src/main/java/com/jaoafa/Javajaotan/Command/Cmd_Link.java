@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.MySQLDBManager;
 
 import sx.blah.discord.api.IDiscordClient;
@@ -24,13 +24,13 @@ public class Cmd_Link implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
-		MySQLDBManager MySQLDBManager = Javajaotan.MySQLDBManager;
+		MySQLDBManager MySQLDBManager = Main.MySQLDBManager;
 		if (MySQLDBManager == null) {
 			RequestBuffer.request(() -> {
 				try {
 					message.reply("データベースサーバに接続できません。時間をおいて再度お試しください。(`MySQLDBManager null`)");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -43,7 +43,7 @@ public class Cmd_Link implements CommandPremise {
 					try {
 						message.reply("AuthKeyを生成できませんでした。時間をおいて再度お試しください。");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				return;
@@ -71,7 +71,7 @@ public class Cmd_Link implements CommandPremise {
 							+ "\n"
 							+ "なお、原則**メールアドレスを登録したアカウントでのリンク**をお願いしています。それ以外のアカウントでリンクするとログイン出来なくなる可能性があります。");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -81,7 +81,7 @@ public class Cmd_Link implements CommandPremise {
 					message.reply("データベースサーバに接続できません。時間をおいて再度お試しください。\n"
 							+ "**Message**: `" + e.getMessage() + "`");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;

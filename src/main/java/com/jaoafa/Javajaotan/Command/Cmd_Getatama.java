@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.jaoafa.Javajaotan.CommandPremise;
-import com.jaoafa.Javajaotan.Javajaotan;
-import com.jaoafa.Javajaotan.Lib.ErrorReporter;
+import com.jaoafa.Javajaotan.Main;
 import com.jaoafa.Javajaotan.Lib.Library;
 import com.jaoafa.Javajaotan.Lib.SQLiteDBManager;
 
@@ -35,7 +34,7 @@ public class Cmd_Getatama implements CommandPremise {
 					message.reply("動作に必要なファイルが見つかりません。開発部にお問い合わせください。\n"
 							+ "Reason: " + sqliteFile.getAbsolutePath() + " not found");
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
 			return;
@@ -49,20 +48,20 @@ public class Cmd_Getatama implements CommandPremise {
 				try {
 					message.reply("処理に失敗しました。時間を置いてもう一度お試しください。\nReason: " + e.getMessage());
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 			return;
 		} catch (SQLException e) {
 			RequestBuffer.request(() -> {
 				try {
 					message.reply("処理に失敗しました。時間を置いてもう一度お試しください。\nReason: " + e.getMessage());
 				} catch (DiscordException discordexception) {
-					Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 			return;
 		}
 
@@ -74,7 +73,7 @@ public class Cmd_Getatama implements CommandPremise {
 					try {
 						message.reply("数値を指定してください。");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				return;
@@ -86,7 +85,7 @@ public class Cmd_Getatama implements CommandPremise {
 					try {
 						message.reply("100以下で指定してください。");
 					} catch (DiscordException discordexception) {
-						Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
 				return;
@@ -121,14 +120,14 @@ public class Cmd_Getatama implements CommandPremise {
 			}
 		} catch (SQLException e) {
 			message.reply("処理に失敗しました。時間を置いてもう一度お試しください。\n**Reason**: " + e.getMessage());
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(channel, e);
 			return;
 		}
 		RequestBuffer.request(() -> {
 			try {
 				message.reply("```" + String.join("\n", list) + "```");
 			} catch (DiscordException discordexception) {
-				Javajaotan.DiscordExceptionError(getClass(), channel, discordexception);
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
 	}
