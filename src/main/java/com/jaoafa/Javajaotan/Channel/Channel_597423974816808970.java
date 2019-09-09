@@ -1,5 +1,6 @@
 package com.jaoafa.Javajaotan.Channel;
 
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Matcher;
@@ -70,6 +71,7 @@ public class Channel_597423974816808970 implements ChannelPremise {
 		if (pinerr != null) {
 			builder.appendField("ピン留めエラーメッセージ", pinerr, false);
 		}
+		builder.withColor(Color.YELLOW);
 		RequestBuffer.request(() -> {
 			try {
 				channel.sendMessage(builder.build());

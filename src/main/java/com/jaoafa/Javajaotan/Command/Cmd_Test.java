@@ -2,6 +2,7 @@ package com.jaoafa.Javajaotan.Command;
 
 import com.jaoafa.Javajaotan.CommandPremise;
 import com.jaoafa.Javajaotan.Main;
+import com.jaoafa.Javajaotan.Task.Task_MeetingVote;
 
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.IChannel;
@@ -14,6 +15,8 @@ public class Cmd_Test implements CommandPremise {
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
 		Main.ExceptionReporter(channel, new NullPointerException("NullPointerException"));
+
+		new Task_MeetingVote(true).run();
 	}
 
 	@Override

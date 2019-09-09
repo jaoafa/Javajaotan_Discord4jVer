@@ -59,11 +59,9 @@ public class ALLChatMainEvent {
 		if (MuteManager.isMuted(author.getStringID())) {
 			return; // Muted
 		}
-		System.out.println("EDIT: " + author.getName() + " -> " + message.getContent());
 		try {
 			ClassFinder classFinder = new ClassFinder();
 			for (Class<?> clazz : classFinder.findClasses("com.jaoafa.Javajaotan.ALLChat")) {
-				System.out.println("EDIT A: " + clazz.getName());
 				if (!clazz.getName().startsWith("com.jaoafa.Javajaotan.ALLChat.ALL_")) {
 					continue;
 				}

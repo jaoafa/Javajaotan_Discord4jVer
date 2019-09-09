@@ -112,5 +112,16 @@
 			<artifactId>language-detector</artifactId>
 			<version>0.6</version>
 		</dependency>
+		<!--<dependency>
+			<groupId>net.dv8tion</groupId>
+			<artifactId>JDA</artifactId>
+			<version>3.8.3_463</version>
+			<exclusions>
+				<exclusion>
+					<groupId>club.minnced</groupId>
+					<artifactId>opus-java</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>-->
 	</dependencies>
 </project>

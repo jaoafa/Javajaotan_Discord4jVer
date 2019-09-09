@@ -42,6 +42,7 @@ import sx.blah.discord.util.RequestBuffer;
 public class Main {
 	public static IChannel ReportChannel = null;
 	private static IDiscordClient client = null;
+	//private static JDA jda = null;
 	public static MySQLDBManager MySQLDBManager = null;
 	public static String translateGAS = null;
 
@@ -119,6 +120,19 @@ public class Main {
 		dispatcher.registerListener(new Event_MessageReceived());
 		dispatcher.registerListener(new Event_ReactionAddEvent());
 
+		/*try {
+			jda = new JDABuilder(AccountType.BOT)
+					.setAudioEnabled(false)
+					.setAutoReconnect(true)
+					.setBulkDeleteSplittingEnabled(false)
+					.setToken(token)
+					.setContextEnabled(false)
+					.build().awaitReady();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return;
+		}*/
+
 		Runtime.getRuntime().addShutdownHook(
 				new Thread(
 						() -> {
@@ -158,6 +172,10 @@ public class Main {
 	public static IDiscordClient getClient() {
 		return client;
 	}
+
+	/*public static JDA getJDA() {
+		return jda;
+	}*/
 
 	public static void DiscordExceptionError(@NotNull Class<?> clazz, @Nullable IChannel channel,
 			@NotNull DiscordException exception) {
@@ -199,14 +217,19 @@ public class Main {
 	}
 
 	public static void ExceptionReporter(@Nullable IChannel channel, @NotNull Throwable exception) {
-		if (channel != null && Main.ReportChannel != null) {
+		if (channel != null) {
 			RequestBuffer.request(() -> {
-				channel.sendMessage(
-						":pencil:おっと！Javajaotanでなにか問題が発生したようです！ <@221991565567066112>\n**Throwable Class**: `"
-								+ exception.getClass().getName() + "`");
+				try {
+					channel.sendMessage(
+							":pencil:おっと！Javajaotanでなにか問題が発生したようです！ <@221991565567066112>\n**Throwable Class**: `"
+									+ exception.getClass().getName() + "`");
+				} catch (DiscordException discordexception) {
+					Main.DiscordExceptionError(Main.class, Main.ReportChannel, discordexception);
+				}
 			});
-		} else if (channel == null) {
-			System.out.println("ExceptionReporter: channel == null and Javajaotan.ReportChannel == null.");
+		}
+		if (Main.ReportChannel == null) {
+			System.out.println("ExceptionReporter: Javajaotan.ReportChannel == null.");
 			System.out.println("ExceptionReporter did not work properly!");
 			return;
 		}

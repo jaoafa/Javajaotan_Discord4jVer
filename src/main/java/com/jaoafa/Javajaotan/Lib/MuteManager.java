@@ -8,6 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 
+import com.jaoafa.Javajaotan.Main;
+
 public class MuteManager {
 	private static HashSet<String> mutes = null;
 
@@ -28,10 +30,10 @@ public class MuteManager {
 			SQLiteDBManager sqlite = new SQLiteDBManager(sqliteFile);
 			conn = sqlite.getConnection();
 		} catch (ClassNotFoundException | IOException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		} catch (SQLException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		}
 		try {
@@ -47,7 +49,7 @@ public class MuteManager {
 			}
 			conn.close();
 		} catch (SQLException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return null;
 		}
 		return mutes;
@@ -62,10 +64,10 @@ public class MuteManager {
 			SQLiteDBManager sqlite = new SQLiteDBManager(sqliteFile);
 			conn = sqlite.getConnection();
 		} catch (ClassNotFoundException | IOException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return;
 		} catch (SQLException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return;
 		}
 		try {
@@ -78,7 +80,7 @@ public class MuteManager {
 			}
 			conn.close();
 		} catch (SQLException e) {
-			ErrorReporter.report(e);
+			Main.ExceptionReporter(null, e);
 			return;
 		}
 	}

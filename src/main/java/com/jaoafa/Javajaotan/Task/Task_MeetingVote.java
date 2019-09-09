@@ -1,5 +1,6 @@
 package com.jaoafa.Javajaotan.Task;
 
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -26,6 +27,15 @@ import sx.blah.discord.util.RequestBuffer;
 public class Task_MeetingVote extends TimerTask {
 	int TeamJaoCount = 9; // Admin + Moderator
 	Pattern p = Pattern.compile("\\[Border:([0-9]+)\\]");
+	boolean debugMode = false;
+
+	public Task_MeetingVote() {
+
+	}
+
+	public Task_MeetingVote(boolean debugMode) {
+		this.debugMode = debugMode;
+	}
 
 	@Override
 	public void run() {
@@ -44,11 +54,21 @@ public class Task_MeetingVote extends TimerTask {
 			String content = message.getFormattedContent();
 			LocalDateTime timestamp = LocalDateTime.ofInstant(message.getTimestamp(), ZoneId.of("Asia/Tokyo"));
 
-			IReaction good = message.getReactionByUnicode("👍");
+			message = channel.fetchMessage(message.getLongID());
+			List<IReaction> reacts = message.getReactions();
+			if (debugMode) {
+				for (IReaction react : reacts) {
+					System.out.println(react.getEmoji().getName() + ": " + react.getCount());
+					System.out.println("Good: " + Boolean.toString(react.getEmoji().getName().equals("\uD83D\uDC4D")));
+					System.out.println("White: " + Boolean.toString(react.getEmoji().getName().equals("🏳️")));
+				}
+			}
+
+			IReaction good = message.getReactionByUnicode("\uD83D\uDC4D");
 			int good_count = good != null ? good.getCount() : 0;
-			IReaction bad = message.getReactionByUnicode("👎");
+			IReaction bad = message.getReactionByUnicode("\uD83D\uDC4E");
 			int bad_count = bad != null ? bad.getCount() : 0;
-			IReaction white = message.getReactionByUnicode("🏳️");
+			IReaction white = message.getReactionByUnicode("\uD83C\uDFF3");
 			int white_count = white != null ? white.getCount() : 0;
 
 			int _VoteBorder = VoteBorder;
@@ -70,6 +90,12 @@ public class Task_MeetingVote extends TimerTask {
 				}
 				_VoteBorder -= _white / 2;
 			}
+			if (debugMode) {
+				System.out.println("MeetingVote[debugMode] " + message.getStringID() + " by "
+						+ message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator());
+				System.out.println("MeetingVote[debugMode] " + "VoteBorder: " + VoteBorder + " / Good: " + good_count
+						+ " / Bad: " + bad_count + " / White: " + white_count + " / _VoteBorder: " + _VoteBorder);
+			}
 
 			if (good_count >= _VoteBorder) {
 				EmbedBuilder builder = new EmbedBuilder();
@@ -78,8 +104,11 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("賛成 / 反対 / 白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
+				builder.appendField("対象メッセージURL", "https://discordapp.com/channels/" + message.getGuild().getStringID()
+						+ "/" + message.getChannel().getStringID() + "/" + message.getStringID(), false);
 				builder.appendField("投票開始日時",
 						sdf.format(new Date(timestamp.toEpochSecond(ZoneOffset.ofHours(9)) * 1000)), false);
+				builder.withColor(Color.GREEN);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -87,9 +116,10 @@ public class Task_MeetingVote extends TimerTask {
 						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
+				IMessage FINALMESSAGE = message;
 				RequestBuffer.request(() -> {
 					try {
-						channel.unpin(message);
+						channel.unpin(FINALMESSAGE);
 					} catch (DiscordException discordexception) {
 						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
@@ -101,8 +131,11 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("賛成 / 反対 / 白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
+				builder.appendField("対象メッセージURL", "https://discordapp.com/channels/" + message.getGuild().getStringID()
+						+ "/" + message.getChannel().getStringID() + "/" + message.getStringID(), false);
 				builder.appendField("投票開始日時",
 						sdf.format(new Date(timestamp.toEpochSecond(ZoneOffset.ofHours(9)) * 1000)), false);
+				builder.withColor(Color.RED);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -110,9 +143,10 @@ public class Task_MeetingVote extends TimerTask {
 						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
+				IMessage FINALMESSAGE = message;
 				RequestBuffer.request(() -> {
 					try {
-						channel.unpin(message);
+						channel.unpin(FINALMESSAGE);
 					} catch (DiscordException discordexception) {
 						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
@@ -134,6 +168,8 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("賛成 / 反対 / 白票", good_count + " / " + bad_count + " / " + white_count, false);
 				builder.appendField("決議ボーダー", String.valueOf(_VoteBorder), false);
 				builder.appendField("内容", content, false);
+				builder.appendField("対象メッセージURL", "https://discordapp.com/channels/" + message.getGuild().getStringID()
+						+ "/" + message.getChannel().getStringID() + "/" + message.getStringID(), false);
 				builder.appendField("投票開始日時",
 						sdf.format(timestamp.toEpochSecond(ZoneOffset.ofHours(9))) + " ("
 								+ timestamp.toEpochSecond(ZoneOffset.ofHours(9)) + ")",
@@ -144,6 +180,7 @@ public class Task_MeetingVote extends TimerTask {
 				builder.appendField("現在時刻",
 						sdf.format(new Date(TimeUnit.SECONDS.toMillis(now))) + " (" + now + ")",
 						false);
+				builder.withColor(Color.ORANGE);
 				RequestBuffer.request(() -> {
 					try {
 						channel.sendMessage(builder.build());
@@ -151,9 +188,10 @@ public class Task_MeetingVote extends TimerTask {
 						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
 				});
+				IMessage FINALMESSAGE = message;
 				RequestBuffer.request(() -> {
 					try {
-						channel.unpin(message);
+						channel.unpin(FINALMESSAGE);
 					} catch (DiscordException discordexception) {
 						Main.DiscordExceptionError(getClass(), channel, discordexception);
 					}
