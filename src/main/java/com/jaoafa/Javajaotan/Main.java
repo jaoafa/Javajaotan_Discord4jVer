@@ -26,6 +26,7 @@ import com.jaoafa.Javajaotan.Event.Event_ReactionAddEvent;
 import com.jaoafa.Javajaotan.Event.Event_ServerBanned;
 import com.jaoafa.Javajaotan.Event.Event_ServerJoin;
 import com.jaoafa.Javajaotan.Event.Event_ServerLeave;
+import com.jaoafa.Javajaotan.Event.Event_TodoCheck;
 import com.jaoafa.Javajaotan.Lib.Library;
 import com.jaoafa.Javajaotan.Lib.MySQLDBManager;
 import com.jaoafa.Javajaotan.Task.Task_MeetingVote;
@@ -119,6 +120,7 @@ public class Main {
 		dispatcher.registerListener(new Event_ServerBanned());
 		dispatcher.registerListener(new Event_MessageReceived());
 		dispatcher.registerListener(new Event_ReactionAddEvent());
+		dispatcher.registerListener(new Event_TodoCheck());
 
 		/*try {
 			jda = new JDABuilder(AccountType.BOT)
