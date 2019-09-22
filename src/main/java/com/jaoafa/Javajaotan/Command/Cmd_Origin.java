@@ -113,17 +113,17 @@ public class Cmd_Origin implements CommandPremise {
 
 	@Override
 	public String getDescription() {
-		return null;
+		return "今日の記念日情報を詳しく表示します。";
 	}
 
 	@Override
 	public String getUsage() {
-		return null;
+		return "/origin <AnniversaryNumber>";
 	}
 
 	@Override
 	public boolean isjMSOnly() {
-		return false;
+		return true;
 	}
 
 }
