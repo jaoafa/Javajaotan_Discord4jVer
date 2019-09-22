@@ -43,7 +43,11 @@ public class Cmd_Help implements CommandPremise {
 					if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {
 						continue;
 					}
-					EmbedField field = new EmbedField(commandName.toLowerCase(), cmd.getDescription());
+					String description = cmd.getDescription();
+					if (description == null) {
+						description = "null";
+					}
+					EmbedField field = new EmbedField(commandName.toLowerCase(), description);
 					cmdList.add(field);
 				}
 			} catch (Exception e) { // ClassFinder.findClassesがそもそもException出すので仕方ないという判断で。
@@ -106,7 +110,11 @@ public class Cmd_Help implements CommandPremise {
 					if (cmd.isjMSOnly() && guild.getLongID() != 597378876556967936L) {
 						continue;
 					}
-					EmbedField field = new EmbedField(commandName.toLowerCase(), cmd.getDescription());
+					String description = cmd.getDescription();
+					if (description == null) {
+						description = "null";
+					}
+					EmbedField field = new EmbedField(commandName.toLowerCase(), description);
 					cmdList.add(field);
 				}
 			} catch (Exception e) { // ClassFinder.findClassesがそもそもException出すので仕方ないという判断で。
@@ -170,8 +178,16 @@ public class Cmd_Help implements CommandPremise {
 			EmbedBuilder builder = new EmbedBuilder();
 			builder.withTitle("jaotan Command Help");
 			builder.withColor(Color.YELLOW);
+			String description = cmd.getDescription();
+			if (description == null) {
+				description = "null";
+			}
+			String usage = cmd.getUsage();
+			if (usage == null) {
+				usage = "null";
+			}
 			builder.appendField("/" + args[0].toLowerCase(),
-					"**Description**: `" + cmd.getDescription() + "`\n" + "**Usage**: `" + cmd.getUsage() + "`", false);
+					"**Description**: `" + description + "`\n" + "**Usage**: `" + usage + "`", false);
 
 			RequestBuffer.request(() -> {
 				try {
