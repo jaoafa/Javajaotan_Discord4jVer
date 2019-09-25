@@ -38,9 +38,9 @@ public class Channel_621632815599190016 implements ChannelPremise {
 		TimeZone tz = TimeZone.getTimeZone("Asia/Tokyo");
 		sdf.setTimeZone(tz);
 		String datestr = sdf.format(date);
-		String time = "\\\"" + text + "\\\"";
 
-		ProcessBuilder pb = new ProcessBuilder("php", "-r \"echo strtotime(" + time + ", " + unixtime / 1000 + ");\"");
+		ProcessBuilder pb = new ProcessBuilder("php", "strtotime.php", String.valueOf(text),
+				String.valueOf(unixtime));
 		pb.redirectErrorStream(true);
 		int ret;
 		String line = null;
@@ -56,7 +56,7 @@ public class Channel_621632815599190016 implements ChannelPremise {
 			return;
 		}
 		String retmessage = "";
-		if (ret == 0 && !line.equals("")) {
+		if (ret == 0 && line != null && !line.equals("")) {
 			Date textDate = new Date(Long.parseLong(line) * 1000);
 			long now = date.getTime();
 			long to = textDate.getTime();
@@ -88,7 +88,7 @@ public class Channel_621632815599190016 implements ChannelPremise {
 			}
 			retmessage += "\n(差: " + returnplus(diff) + Math.abs(diff) + "秒)";
 		}
-		retmessage += "(`" + ret + ")\n```" + line + "```";
+		retmessage += "(`" + ret + "`)\n```" + line + "```";
 		// ななじとかは後日対応で。
 		String replyMessage = datestr + "\n" + retmessage;
 		RequestBuffer.request(() -> {
