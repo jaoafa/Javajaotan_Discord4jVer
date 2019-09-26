@@ -59,7 +59,7 @@ public class Task_VerifiedCheck extends TimerTask {
 			}
 			RequestBuffer.request(() -> {
 				try {
-					channel.sendMessage("__**[VerifiedCheck]**__ チャットがないまま10分を経過したため、ユーザー「" + user.getName() + "#"
+					channel.sendMessage(":wave:チャットがないまま10分を経過したため、ユーザー「" + user.getName() + "#"
 							+ user.getDiscriminator() + "」をキックしました。");
 				} catch (DiscordException discordexception) {
 					Main.DiscordExceptionError(getClass(), channel, discordexception);
