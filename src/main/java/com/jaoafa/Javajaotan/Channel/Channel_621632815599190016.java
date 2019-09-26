@@ -68,8 +68,8 @@ public class Channel_621632815599190016 implements ChannelPremise {
 			} else if (diff < 0) {
 				retmessage = "`チャレンジ失敗…" + sdf.format(textDate) + "ぴったりに投稿するには、あと" + Math.abs(diff) + "秒前に投稿するべきでした…。`";
 			}
-			retmessage += "\n(差: " + returnplus(diff) + Math.abs(diff) + ")";
-		} else if (text.matches(".*6時59分.*")) {
+			retmessage += "\n(差: " + returnplus(diff) + Math.abs(diff) + "秒 | NOW: " + now + " / TO: " + to + ")";
+		} else if (text.matches("[/s/S]*6時59分[/s/S]*")) {
 			Calendar cal = Calendar.getInstance();
 			cal.set(Calendar.HOUR, 6);
 			cal.set(Calendar.MINUTE, 59);
@@ -86,9 +86,12 @@ public class Channel_621632815599190016 implements ChannelPremise {
 			} else if (diff < 0) {
 				retmessage = "`チャレンジ失敗…" + sdf.format(textDate) + "ぴったりに投稿するには、あと" + Math.abs(diff) + "秒前に投稿するべきでした…。`";
 			}
-			retmessage += "\n(差: " + returnplus(diff) + Math.abs(diff) + "秒)";
+			retmessage += "\n(差: " + returnplus(diff) + Math.abs(diff) + "秒 | NOW: " + now + " / TO: " + to + ")";
 		}
-		retmessage += "(`" + ret + "`)\n```" + line + "```";
+		retmessage += "(`" + ret + "`)";
+		if (line != null) {
+			retmessage += "\n```" + line + "```";
+		}
 		// ななじとかは後日対応で。
 		String replyMessage = datestr + "\n" + retmessage;
 		RequestBuffer.request(() -> {
