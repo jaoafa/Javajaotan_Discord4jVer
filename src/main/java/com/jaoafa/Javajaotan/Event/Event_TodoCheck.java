@@ -25,7 +25,7 @@ public class Event_TodoCheck {
 		if (message.getReactions().size() == 0) {
 			message = channel.fetchMessage(message.getLongID());
 		}
-		IReaction new_emoji = message.getReactionByUnicode("\uD83C\uDD95");
+		IReaction new_emoji = message.getReactionByUnicode("🆕");
 		RequestBuffer.request(() -> {
 			try {
 				event.getMessage().removeReaction(Main.getClient().getOurUser(), new_emoji);

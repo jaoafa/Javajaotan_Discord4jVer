@@ -21,7 +21,7 @@ public class Channel_597424023621599232 implements ChannelPremise {
 		if (message.isSystemMessage()) {
 			return;
 		}
-		IReaction new_emoji = message.getReactionByUnicode("\uD83C\uDD95");
+		IReaction new_emoji = message.getReactionByUnicode("🆕");
 		RequestBuffer.request(() -> {
 			try {
 				message.addReaction(new_emoji);
