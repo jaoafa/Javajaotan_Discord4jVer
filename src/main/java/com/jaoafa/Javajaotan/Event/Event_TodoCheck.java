@@ -15,7 +15,7 @@ public class Event_TodoCheck {
 	@EventSubscriber
 	public void onReactionAddEvent(ReactionAddEvent event) {
 		IChannel channel = event.getChannel();
-		if (channel.getLongID() != 597424023621599232L) {
+		if (channel.getLongID() != 597424023621599232L && channel.getLongID() != 626727474922913792L) {
 			return;
 		}
 		IMessage message = event.getMessage();
@@ -25,6 +25,14 @@ public class Event_TodoCheck {
 		if (message.getReactions().size() == 0) {
 			message = channel.fetchMessage(message.getLongID());
 		}
+		IReaction new_emoji = message.getReactionByUnicode("\uD83C\uDD95");
+		RequestBuffer.request(() -> {
+			try {
+				event.getMessage().removeReaction(Main.getClient().getOurUser(), new_emoji);
+			} catch (DiscordException discordexception) {
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
+			}
+		});
 		IReaction white_check_mark = message.getReactionByUnicode("\u2705");
 		if (white_check_mark == null || white_check_mark.getCount() == 0) {
 			return;
