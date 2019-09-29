@@ -8,7 +8,6 @@ import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
-import sx.blah.discord.handle.obj.IReaction;
 import sx.blah.discord.handle.obj.IUser;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RequestBuffer;
@@ -21,14 +20,6 @@ public class Channel_626727474922913792 implements ChannelPremise {
 		if (message.isSystemMessage()) {
 			return;
 		}
-		IReaction new_emoji = message.getReactionByUnicode("🆕");
-		RequestBuffer.request(() -> {
-			try {
-				message.addReaction(new_emoji);
-			} catch (DiscordException discordexception) {
-				Main.DiscordExceptionError(getClass(), channel, discordexception);
-			}
-		});
 		try {
 			channel.pin(message);
 		} catch (DiscordException e) {

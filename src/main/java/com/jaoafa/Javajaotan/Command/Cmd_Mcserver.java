@@ -8,31 +8,33 @@ import sx.blah.discord.handle.obj.IGuild;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IUser;
 
-public class Cmd_Test implements CommandPremise {
+public class Cmd_Mcserver implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
+		if (args.length == 1) {
+			if (args[0].equalsIgnoreCase("start")) {
 
-		for (char ch : message.getContent().toCharArray()) {
-
+			}
 		}
-		//Main.ExceptionReporter(channel, new NullPointerException("NullPointerException"));
-
-		//new Task_MeetingVote(true).run();
 	}
 
 	@Override
 	public String getDescription() {
-		return "試験用コマンド";
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 
 	@Override
 	public String getUsage() {
-		return "/test";
+		// TODO 自動生成されたメソッド・スタブ
+		return null;
 	}
 
 	@Override
 	public boolean isjMSOnly() {
-		return true;
+		// TODO 自動生成されたメソッド・スタブ
+		return false;
 	}
+
 }

@@ -25,14 +25,6 @@ public class Event_TodoCheck {
 		if (message.getReactions().size() == 0) {
 			message = channel.fetchMessage(message.getLongID());
 		}
-		IReaction new_emoji = message.getReactionByUnicode("🆕");
-		RequestBuffer.request(() -> {
-			try {
-				event.getMessage().removeReaction(Main.getClient().getOurUser(), new_emoji);
-			} catch (DiscordException discordexception) {
-				Main.DiscordExceptionError(getClass(), channel, discordexception);
-			}
-		});
 		IReaction white_check_mark = message.getReactionByUnicode("\u2705");
 		if (white_check_mark == null || white_check_mark.getCount() == 0) {
 			return;
