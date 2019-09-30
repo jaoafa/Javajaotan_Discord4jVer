@@ -23,15 +23,17 @@ public class Cmd_Userban implements CommandPremise {
 				client.getRoleByID(597405109290532864L), // new jGC Admin
 				client.getRoleByID(597405110683041793L), // new jGC Moderator
 		};
-		if (!Library.isAllowRole(author, allowRoles)) {
-			RequestBuffer.request(() -> {
-				try {
-					message.reply("実行しようとしたコマンドはこのチャンネルでは使用できません。");
-				} catch (DiscordException discordexception) {
-					Main.DiscordExceptionError(getClass(), channel, discordexception);
-				}
-			});
-			return;
+		if(author.getLongID() != 221991565567066112L) {
+			if (!Library.isAllowRole(author, allowRoles)) {
+				RequestBuffer.request(() -> {
+					try {
+						message.reply("実行しようとしたコマンドはこのチャンネルでは使用できません。");
+					} catch (DiscordException discordexception) {
+						Main.DiscordExceptionError(getClass(), channel, discordexception);
+					}
+				});
+				return;
+			}
 		}
 		if (args.length != 1) {
 			RequestBuffer.request(() -> {
@@ -91,6 +93,6 @@ public class Cmd_Userban implements CommandPremise {
 
 	@Override
 	public boolean isjMSOnly() {
-		return true;
+		return false;
 	}
 }
