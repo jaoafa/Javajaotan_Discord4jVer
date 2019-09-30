@@ -32,7 +32,9 @@ public class Event_TodoCheck {
 		RequestBuffer.request(() -> {
 			try {
 				event.getMessage().addReaction(white_check_mark);
-				channel.unpin(event.getMessage());
+				if (event.getMessage().isPinned()) {
+					channel.unpin(event.getMessage());
+				}
 			} catch (DiscordException discordexception) {
 				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
