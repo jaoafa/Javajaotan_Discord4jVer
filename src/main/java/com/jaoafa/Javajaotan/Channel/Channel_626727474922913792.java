@@ -32,6 +32,13 @@ public class Channel_626727474922913792 implements ChannelPremise {
 					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
+			RequestBuffer.request(() -> {
+				try {
+					message.addReaction(ReactionEmoji.of("🆕")); // :new:
+				} catch (DiscordException discordexception) {
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
 		}
 	}
 

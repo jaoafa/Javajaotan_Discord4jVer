@@ -23,7 +23,7 @@ public class Cmd_Mcserver implements CommandPremise {
 	@Override
 	public void onCommand(IDiscordClient client, IGuild guild, IChannel channel, IUser author, IMessage message,
 			String[] args) {
-		if(channel.getLongID() != 597423444501463040L) {
+		if (channel.getLongID() != 597423444501463040L) {
 			RequestBuffer.request(() -> {
 				try {
 					message.reply("実行しようとしたコマンドはこのチャンネルでは使用できません。");
@@ -37,38 +37,41 @@ public class Cmd_Mcserver implements CommandPremise {
 			if (args[0].equalsIgnoreCase("start")) {
 				runCommand(message, "systemctl", "start", "minecraft");
 				return;
-			}else if(args[0].equalsIgnoreCase("stop")) {
+			} else if (args[0].equalsIgnoreCase("stop")) {
 				runCommand(message, "systemctl", "stop", "minecraft");
 				return;
-			}else if(args[0].equalsIgnoreCase("restart")) {
+			} else if (args[0].equalsIgnoreCase("restart")) {
 				runCommand(message, "systemctl", "restart", "minecraft");
 				return;
-			}else if(args[0].equalsIgnoreCase("kill")) {
+			} else if (args[0].equalsIgnoreCase("kill")) {
 				runCommand(message, "systemctl", "kill", "minecraft");
 				return;
-			}else if(args[0].equalsIgnoreCase("status")) {
+			} else if (args[0].equalsIgnoreCase("status")) {
 				runCommand(message, "systemctl", "status", "minecraft");
 				return;
-			}else if(args[0].equalsIgnoreCase("uptime")) {
+			} else if (args[0].equalsIgnoreCase("uptime")) {
 				runCommand(message, "uptime");
 				return;
-			}else if(args[0].equalsIgnoreCase("tps")) {
+			} else if (args[0].equalsIgnoreCase("tps")) {
 				String command = "tps";
-				runCommand(message, "/usr/bin/screen", "-p 0", "-S minecraft", "-X eval 'stuff \"" + command + "\"\\\\015'");
+				runCommand(message, "/usr/bin/screen", "-p", "0", "-S", "minecraft",
+						"-X", "eval 'stuff \"" + command + "\"\\\\015'");
 				return;
 			}
-		}else if(args.length == 2) {
-			if(args[0].equalsIgnoreCase("say")) {
+		} else if (args.length >= 2) {
+			if (args[0].equalsIgnoreCase("say")) {
 				String command = "say " + String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				runCommand(message, "/usr/bin/screen", "-p 0", "-S minecraft", "-X eval 'stuff \"" + command + "\"\\\\015'");
+				runCommand(message, "/usr/bin/screen", "-p 0 -S minecraft -X eval 'stuff \"" + command + "\"\\\\015'");
 				return;
-			}else if(args[0].equalsIgnoreCase("chat")) {
+			} else if (args[0].equalsIgnoreCase("chat")) {
 				String command = "chat " + String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				runCommand(message, "/usr/bin/screen", "-p 0", "-S minecraft", "-X eval 'stuff \"" + command + "\"\\\\015'");
+				runCommand(message, "/usr/bin/screen", "-p 0", "-S minecraft",
+						"-X eval 'stuff \"" + command + "\"\\\\015'");
 				return;
-			}else if(args[0].equalsIgnoreCase("tell")) {
+			} else if (args[0].equalsIgnoreCase("tell")) {
 				String command = "tell " + String.join(" ", Arrays.copyOfRange(args, 1, args.length));
-				runCommand(message, "/usr/bin/screen", "-p 0", "-S minecraft", "-X eval 'stuff \"" + command + "\"\\\\015'");
+				runCommand(message, "/usr/bin/screen", "-p 0", "-S minecraft",
+						"-X eval 'stuff \"" + command + "\"\\\\015'");
 				return;
 			}
 		}
@@ -113,7 +116,7 @@ public class Cmd_Mcserver implements CommandPremise {
 			}
 			br.close();
 			is.close();
-		}catch(IOException e) {
+		} catch (IOException e) {
 			Main.ExceptionReporter(channel, e);
 			return;
 		}
@@ -122,6 +125,8 @@ public class Cmd_Mcserver implements CommandPremise {
 			try {
 				message.reply("```" + last + "```(" + ret + ")");
 			} catch (DiscordException discordexception) {
+				System.out.println(
+						"```" + last + "```(" + ret + ")\n\n\n" + ("```" + last + "```(" + ret + ")").length() + "\n");
 				Main.DiscordExceptionError(getClass(), channel, discordexception);
 			}
 		});
