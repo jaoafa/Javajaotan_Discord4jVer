@@ -5,6 +5,7 @@ import com.jaoafa.Javajaotan.Main;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageSendEvent;
 import sx.blah.discord.handle.impl.events.guild.channel.message.reaction.ReactionAddEvent;
+import sx.blah.discord.handle.impl.obj.ReactionEmoji;
 import sx.blah.discord.handle.obj.IChannel;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.handle.obj.IReaction;
@@ -29,6 +30,13 @@ public class Event_TodoCheck {
 		if (white_check_mark == null || white_check_mark.getCount() == 0) {
 			return;
 		}
+		RequestBuffer.request(() -> {
+			try {
+				event.getMessage().removeReaction(Main.getClient().getOurUser(), ReactionEmoji.of("🆕")); // :new:
+			} catch (DiscordException discordexception) {
+				Main.DiscordExceptionError(getClass(), channel, discordexception);
+			}
+		});
 		RequestBuffer.request(() -> {
 			try {
 				event.getMessage().addReaction(white_check_mark);

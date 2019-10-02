@@ -22,6 +22,13 @@ public class Channel_597424023621599232 implements ChannelPremise {
 		}
 		try {
 			channel.pin(message);
+			RequestBuffer.request(() -> {
+				try {
+					message.addReaction(ReactionEmoji.of("🆕")); // :new:
+				} catch (DiscordException discordexception) {
+					Main.DiscordExceptionError(getClass(), channel, discordexception);
+				}
+			});
 		} catch (DiscordException e) {
 			String pinerr = e.getErrorMessage();
 			RequestBuffer.request(() -> {
