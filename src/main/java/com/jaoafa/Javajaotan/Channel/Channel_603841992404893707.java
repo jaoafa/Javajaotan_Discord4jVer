@@ -80,6 +80,7 @@ public class Channel_603841992404893707 implements ChannelPremise {
 					Main.DiscordExceptionError(getClass(), channel, discordexception);
 				}
 			});
+			jaoPlayers.remove(author.getLongID());
 		}
 	}
 
