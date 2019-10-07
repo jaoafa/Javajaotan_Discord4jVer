@@ -125,9 +125,16 @@ public class Cmd_Checkrange implements CommandPremise {
 		int oldx = X.get(0);
 		int oldz = Z.get(0);
 		String changed = null; // 変化したのがXかZか。最初はnull、XまたはZを代入
-		for (int i = 1; i < X.size(); i++) {
-			int x = X.get(i);
-			int z = Z.get(i);
+		for (int i = 1; i <= X.size(); i++) {
+			int x;
+			int z;
+			if (i == X.size()) {
+				x = X.get(0);
+				z = Z.get(0);
+			} else {
+				x = X.get(i);
+				z = Z.get(i);
+			}
 			if (changed == null) {
 				// 最初だけ動作
 				if (oldx != x && oldz == z) {
