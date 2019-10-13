@@ -75,8 +75,10 @@ public class Cmd_Toenja implements CommandPremise {
 			return;
 		}
 
-		String res2 = Library.GoogleTranslateWeb(res, to, "ja");
-		String source2 = "GoogleTranslateWeb";
+		/*String res2 = Library.GoogleTranslateWeb(res, to, "ja");
+		String source2 = "GoogleTranslateWeb";*/
+		String res2 = null;
+		String source2 = null;
 		if (res2 == null) {
 			res2 = Library.GoogleTranslateGAS(res, to, "ja");
 			source2 = "GoogleTranslateGAS";
