@@ -19,7 +19,7 @@ This project has been ends for the following reasons.
 - The Discord4J 2.x version became virtually unusable due to Discord specification changes.
 - Because the specification after 3.x version of Discord4J is too difficult to use
 
-In the future, functions equivalent to those implemented in this project will be developed in [jaoafa/Javajaotan](https://github.com/jaoafa/Javajaotan) using [DV8FromTheWorld/JDA](https://github.com/DV8FromTheWorld/JDA).
+In the future, functions equivalent to those implemented in this project will be developed in [jaoafa/Javajaotan](https://github.com/jaoafa/Javajaotan) using [DV8FromTheWorld/JDA](https://github.com/DV8FromTheWorld/JDA).  
 This project will be archived, but we will not abandoned copyrights or licenses such as ideas and source code in this project.
 
 ## 移植(移行)状況
